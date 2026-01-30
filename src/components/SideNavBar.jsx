@@ -33,6 +33,11 @@ function SideNavBar({display}) {
                 <span>Library</span>
             </Link>
 
+            <Link to={"/stories"} className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
+                <GoBookmark className="text-primary text-xl lg:text-3xl" />
+                <span>Stories</span>
+            </Link>
+
             <Link className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
                 <CiSettings className="text-primary text-xl lg:text-3xl" />
                 <span>Settings</span>

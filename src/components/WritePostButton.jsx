@@ -15,7 +15,7 @@ function WritePostButton() {
         )
     }
     return (
-        <Link to="/library/write" className="px-5 py-2 rounded flex items-center gap-2 bg-primary">
+        <Link to="/stories/write" className="px-5 py-2 rounded flex items-center gap-2 bg-primary">
             <TbPencilCode className="text-xl text-white" />
             <p className="text-white text-xl lg:text-2xl">Write</p>
         </Link>

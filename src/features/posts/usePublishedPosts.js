@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import {getUserDrafts} from "../../services/apiPosts";
+import {getUserPublishedPosts} from "../../services/apiPosts";
 
-function useDraftedPosts(){
+function usePublishedPosts(){
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -10,11 +10,11 @@ function useDraftedPosts(){
         try {
             setIsLoading(true);
             setError(null);
-            const data = await getUserDrafts(userId);
+            const data = await getUserPublishedPosts(userId);
             setPosts(data ?? []);
         } catch (err) {
             const message = err?.message;
-            setError(message ?? "Failed to load drafted posts");
+            setError(message ?? "Failed to load published posts");
         } finally {
             setIsLoading(false);
         }
@@ -24,5 +24,5 @@ function useDraftedPosts(){
 }
 
 
-export default useDraftedPosts;
+export default usePublishedPosts;
 

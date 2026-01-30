@@ -7,6 +7,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import PostPage from "./pages/PostPage";
 import Posts from "./pages/Posts";
+import Stories from "./pages/Stories";
 import WritePost from "./pages/WritePost";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -23,8 +24,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/posts" element={<Posts />} />
+          <Route path="/stories" element={<Stories />} />
           <Route path="/posts/:slug" element={<PostPage />} />
-          <Route path="/library/write" element={
+          <Route path="/stories/write" element={
             <ProtectedRoute>
               <WritePost />
             </ProtectedRoute >
