@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { GoClock, GoHeart } from "react-icons/go";
 import { TbArrowBadgeRightFilled } from "react-icons/tb";
 import Tags from "./Tags"
+import { formatDistanceFromNow } from "../utils/helpers";
 
 function Post({post}) {
-    const {title, tags, slug, summary, read_time, likes_count } = post;
+    const {title, tags, slug, summary, read_time, likes_count, created_at } = post;
+
+    const dateTime = formatDistanceFromNow(created_at); 
 
     const tagList = Array.isArray(tags) 
     ? tags 
@@ -39,7 +42,7 @@ function Post({post}) {
                     </p>
                     <div className="flex items-center gap-1">
                         <GoClock className="text-xl text-primary" />
-                        <p>1 day ago</p>
+                        <p>{dateTime}</p>
                     </div>
                 </div>
                 <div className="flex justify-between">
