@@ -1,7 +1,9 @@
 function FormButton({text, disabled, onClick}) {
     return (
         <button 
-        className={`px-6 py-3 capitalize cursor-pointer hover:shadow-sm  rounded ${disabled ? 'opacity-80 cursor-not-allowed' : ''} ${text === "publish" ? "bg-primary text-white" : "ring ring-primary text-primary" }`} 
+        className={`px-6 py-3 capitalize cursor-pointer hover:shadow-md  rounded 
+        ${disabled ? 'opacity-80 cursor-not-allowed' : ''} 
+        ${text === "save draft" ? "ring ring-primary text-primary":"bg-primary text-white" }`} 
         disabled={disabled}
         onClick={onClick}
         >

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import useDraftedPosts from "../features/posts/useDraftedPosts";
-import PostsList from "../components/PostsList";
 import WritePostButton from "../components/WritePostButton";
 import Tab from "../components/Tab";
 import usePublishedPosts from "../features/posts/usePublishedPosts";
+import StoriesList from "../components/StoriesList";
 
 function Stories(){
     const {user} = useAuth();
@@ -49,7 +49,7 @@ function Stories(){
                             <div>{draftsError}</div>
                         ) : (
                             draftedPosts.length > 0 ? 
-                            <PostsList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} />
+                            <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished={false} />
                             : <div>No drafted post yet!</div> 
                         )
                     }
@@ -61,7 +61,8 @@ function Stories(){
                             <div>{publishedError}</div>
                         ) : (
                             publishedPosts.length > 0 ? 
-                            <PostsList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError} />
+                            <StoriesList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError}
+                            isPublished={true} />
                             : <div>No published post yet!</div> 
                         )
                     }

@@ -12,7 +12,7 @@ function useWritePost(user) {
 
     async function writePost({
         title, summary, content, tags, coverImageUrl, published, 
-    }){
+    }, postId){
 
         const slug = slugify(title);
         console.log("Generated slug:", slug);
@@ -31,7 +31,7 @@ function useWritePost(user) {
                 read_time: readTime, 
                 published,
                 author_id: user.id,
-            })
+            }, postId)
             toast.success(`Post ${published ? "published" : "saved as draft"} successfully`);
             navigate(published ? `/posts/${slug}` : '/posts');
         }

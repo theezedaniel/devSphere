@@ -31,6 +31,11 @@ function App() {
               <WritePost />
             </ProtectedRoute >
           }/> 
+          <Route path="/stories/write/:postId" element={
+            <ProtectedRoute>
+              <WritePost />
+            </ProtectedRoute >
+          }/> 
           
         </Route>
       </Routes>
