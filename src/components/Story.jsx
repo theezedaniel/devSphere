@@ -3,11 +3,14 @@ import { GoClock } from "react-icons/go";
 import { FaEllipsis } from "react-icons/fa6";
 import { useState } from "react";
 import StoryOptions from "./StoryOptions";
+import { formatDateFns } from "../utils/helpers";
 
 function Story({post, isPublished}) {
-    const {title, read_time, id} = post;
+    const {title, read_time, id, created_at} = post;
 
     const [open, setOpen] = useState();
+
+    const dateTime = formatDateFns(created_at);
 
     
     return (
@@ -28,7 +31,7 @@ function Story({post, isPublished}) {
                         <p>&bull;</p>
                         <div className="flex items-center gap-1">
                             <GoClock className="text-xl text-primary" />
-                            <p>1 day ago</p>
+                            <p>{dateTime}</p>
                         </div>
                     </div>
                 </div>

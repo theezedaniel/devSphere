@@ -32,6 +32,40 @@ export async function getPostById(postId){
     return post;
 }
 
+
+export async function getUserDrafts(userId) {
+    const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("author_id", userId)
+    .eq("published", false)
+    .order("created_at", { ascending: false });
+    
+    if(error){
+        console.error(error);
+        throw new Error("Posts could not be loaded!");
+    }
+    
+    return posts;
+}
+
+export async function getUserPublishedPosts(userId) {
+    const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("author_id", userId)
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+
+    if(error){
+        console.error(error);
+        throw new Error("Posts could not be loaded!");
+    }
+    
+    return posts;
+}
+
+
 export async function writePost({
     title, summary, content, tags, cover_image_url, read_time, published,
 }, postId) {
@@ -64,36 +98,17 @@ export async function writePost({
     }
 }
 
-export async function getUserDrafts(userId) {
-  const { data: posts, error } = await supabase
+
+export async function deletePost(postId){
+    const {error} = await supabase
     .from("posts")
-    .select("*")
-    .eq("author_id", userId)
-    .eq("published", false)
-    .order("created_at", { ascending: false });
+    .delete()
+    .eq("id", postId);
 
-  if(error){
+    if(error){
         console.error(error);
-        throw new Error("Posts could not be loaded!");
+        throw new Error("Post could not be deleted!");
     }
-
-    return posts;
-}
-
-export async function getUserPublishedPosts(userId) {
-  const { data: posts, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("author_id", userId)
-    .eq("published", true)
-    .order("created_at", { ascending: false });
-
-  if(error){
-        console.error(error);
-        throw new Error("Posts could not be loaded!");
-    }
-
-    return posts;
 }
 
 

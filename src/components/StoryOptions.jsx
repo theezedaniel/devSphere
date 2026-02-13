@@ -1,6 +1,17 @@
 import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 import { Link } from "react-router-dom";
+import useDeletePost from "../features/posts/useDeletePost";
+
+
+
+
 function StoryOptions({isPublished, postId}) {
+    const {loading, deletePost} = useDeletePost();
+
+    const handleDelete = (postId)=> {
+        deletePost(postId);
+    }
+
     return (
         <div className="absolute z-20 -bottom-50 right-0 bg-white rounded-lg drop-shadow-xl py-4 w-60 space-y-2 md:w-90 md:space-y-6 md:-bottom-65">
             <p className="hover:font-medium flex gap-2 items-center px-4 mb-2 md:text-lg">
@@ -25,10 +36,13 @@ function StoryOptions({isPublished, postId}) {
                 </Link>
             </ul>
             <hr className="text-neutral-200"/>
-            <p className="hover:font-medium flex gap-2 items-center px-4 text-red-600 md:text-lg ">
+            <button 
+            className="hover:font-medium flex gap-2 items-center px-4 text-red-600 cursor-pointer md:text-lg "
+            disabled={loading}
+            onClick={()=> handleDelete(postId)}>
                 <GoTrash />
                 <span>Delete Story</span>
-            </p>
+            </button>
         </div>
     )
 }
