@@ -15,7 +15,6 @@ function useWritePost(user) {
     }, postId){
 
         const slug = slugify(title);
-        console.log("Generated slug:", slug);
 
         const readTime = Math.ceil(content.split(' ').length / 200);
 

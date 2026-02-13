@@ -32,3 +32,40 @@ export const getToday = function (options = {}) {
   else today.setUTCHours(0, 0, 0, 0);
   return today.toISOString();
 };
+
+
+
+// Sort posts by latest (created_at)
+export const sortByLatest = (posts) => {
+  if (!Array.isArray(posts)) return []; //safety check if the posts is not an array
+  return [...posts].sort((a, b) => { //copy of the posts array and sort it.
+    const dateA = new Date(a.created_at);
+    const dateB = new Date(b.created_at);
+    return dateB - dateA; // newest first
+  });
+};
+
+// Sort posts by popular (likes_count)
+export const sortByPopular = (posts) => {
+  if (!Array.isArray(posts)) return [];
+  return [...posts].sort((a, b) => {
+    return (b.likes_count || 0) - (a.likes_count || 0); // highest likes first
+  });
+};
+
+export const filterPosts = (posts, selectedTags) => {
+  if (!Array.isArray(posts)) return [];
+  if (!selectedTags || selectedTags.length === 0) return posts;
+
+  return posts.filter((post) => {
+    if (!post.tags) return false; // skips if there are no tags in that post
+    
+    // Handle if tags is a string (comma-separated) or array
+    const postTags = Array.isArray(post.tags) 
+      ? post.tags 
+      : String(post.tags).split(",").map(tag => tag.trim());
+       
+    // Check if any of the post's tags are in the selectedTags
+    return postTags.some((tag) => selectedTags.includes(tag));
+  });
+};

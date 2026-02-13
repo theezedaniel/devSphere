@@ -6,7 +6,7 @@ import StoryOptions from "./StoryOptions";
 import { formatDateFns } from "../utils/helpers";
 
 function Story({post, isPublished}) {
-    const {title, read_time, id, created_at} = post;
+    const {title, read_time, id, created_at, cover_image_url} = post;
 
     const [open, setOpen] = useState();
 
@@ -16,8 +16,8 @@ function Story({post, isPublished}) {
     return (
         <div className="relative flex gap-4 rounded-xl cursor-pointer shadow lg:w-full">
             <picture className="hidden md:block flex-2 md:flex-1">
-                <source srcSet="../team3.jpg" type="image/jpg" />
-                <img src="../team3.jpg" alt="post image" className="w-full transition duration-300 ease-in-out transform hover:scale-110"/>
+                <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" />
+                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full transition duration-300 ease-in-out transform hover:scale-110"/>
             </picture>
             <div className=" flex-4 flex flex-col justify-between p-5">
                 <div className="space-y-3">
