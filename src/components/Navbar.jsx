@@ -1,6 +1,8 @@
 import { HiOutlineBars3, HiXMark } from "react-icons/hi2"
 import { Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
+import Modal from "./Modal";
+import Button from "./Button";
 
 function Navbar({toggleSideNav}) {
     const { user } =  useAuth(); 
@@ -17,11 +19,11 @@ function Navbar({toggleSideNav}) {
                 <Link to="/posts" className="font-medium text-lg lg:text-xl  hover:underline">Articles</Link>
                 {user 
                 ? <img src="../team3.jpg" alt="avatar" className="w-7 h-7 rounded-full" />
-                : <Link to="/login" className="bg-primary text-stone-100 px-5 py-2 rounded-full hover:opacity-90 transition ">
-                    Sign In
-                </Link>
-                }
-                
+                : (
+                    <Modal.Open opens="sign-in">
+                        <button className="bg-primary text-white px-4 py-1 rounded-full cursor-pointer hover:px-6 transition-all duration-500">Sign in</button>
+                    </Modal.Open>
+                )}
             </div>
         </nav>
     )

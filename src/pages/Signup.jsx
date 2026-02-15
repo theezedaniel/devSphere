@@ -3,6 +3,7 @@ import Button from "../components/Button"
 import Logo from "../components/Logo"
 import { useForm } from "react-hook-form";
 import useSignUp from "../features/authentication/useSignUp";
+import Modal from "../components/Modal";
 
 function Signup() {
     const {handleSignUp, isLoading, error} = useSignUp();
@@ -14,13 +15,13 @@ function Signup() {
     }
 
     return (
-        <div className="flex flex-col gap-5 py-10 px-6 rounded-md shadow-md w-[500px] m-auto bg-white lg:w-[800px] lg:px-20">
+        <div className="flex flex-col gap-5 py-10 px-6 rounded-md w-[500px] m-auto lg:w-[800px] lg:px-20">
             <header className="text-center space-y-1">
                 <div className="w-[150px] mx-auto">
                     <Logo/>
                 </div>
                 <h1 className="text-4xl font-bold mt-4 lg:text-5xl">Create Account</h1>
-                <p className="text-sm">Sign up a DevSphere account</p>
+                <p className="text-sm text-stone-600">Sign up a DevSphere account</p>
             </header>
             <main className="">
                 <form className="flex flex-col gap-4 lg:gap-8" onSubmit={handleSubmit(onSubmit)}>
@@ -66,9 +67,9 @@ function Signup() {
             </main>    
             <p className="italic">
                 Have an account? 
-                <Link to="/login">
-                    <span className="text-blue-700"> Log in</span>                
-                </Link> 
+                <Modal.Open opens="sign-in">
+                    <span className="text-blue-700 cursor-pointer hover:underline"> Log in</span>
+                 </Modal.Open> 
             </p> 
         </div>
     )
