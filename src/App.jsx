@@ -11,6 +11,7 @@ import Stories from "./pages/Stories";
 import WritePost from "./pages/WritePost";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route element={<AppLayout />}>
           {/* <Route index element= {<Navigate replace to="/" />} /> */}
           <Route path="/" element={<Homepage />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/posts" element={<Posts />} />

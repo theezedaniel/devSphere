@@ -11,6 +11,7 @@
 /* custom styles */
 @theme {
  --color-primary: #6366F1;
+ --color-primary-darker: #5558d1;
  --color-secondary: #10B981;
  --color-background: #FAFAFA;
  --color-text: #111827; 

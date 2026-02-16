@@ -24,7 +24,7 @@ function SideNavBar({display, toggleSideNav}) {
                 <span>Home</span>                
             </Link>
             
-            <Link className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
+            <Link to={"/profile"} className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
                 <GoPerson className="text-primary text-xl lg:text-3xl" />
                 <span>Profile</span>
             </Link>
