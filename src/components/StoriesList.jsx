@@ -1,7 +1,7 @@
 import SkeletonLoading from "./SkeletonLoading";
 import Story from "./Story";
 
-function StoriesList({posts = [], isLoading, error, isPublished}) {
+function StoriesList({posts = [], isLoading, error, isPublished, onRequestDelete}) {
     const skeletonCount = posts && posts.length > 0 ? posts.length : 6;
     return (          
             <div className="mt-10">
@@ -14,7 +14,7 @@ function StoriesList({posts = [], isLoading, error, isPublished}) {
                 ) : (
                     
                         posts.map(post => (
-                            <Story key={post.id} post={post} isPublished={isPublished} />
+                            <Story key={post.id} post={post} isPublished={isPublished} onRequestDelete={onRequestDelete} />
                         ))
                     )}
                 </div>

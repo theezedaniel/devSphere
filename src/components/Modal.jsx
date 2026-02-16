@@ -23,7 +23,11 @@ function Modal({children}){
 function Open({children, opens: opensWindowName}){
     const {open} = useContext(ModalContext);
 
-    return cloneElement(children, {onClick: ()=> open(opensWindowName)})
+    return cloneElement(children, {
+        onClick: (e) => {
+            children.props?.onClick?.(e);
+            open(opensWindowName);
+        }})
 }
 
 function Window({children, name}){
