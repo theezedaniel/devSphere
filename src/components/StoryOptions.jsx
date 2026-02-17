@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 import Modal from "./Modal";
+import useDeletePost from "../features/posts/useDeletePost";
 
 
-function StoryOptions({isPublished, postId, onRequestDelete}) {
+function StoryOptions({isPublished, postId}) {
+
+    const {loading: deleteLoading, deletePost} = useDeletePost(); 
     
+    function handleDeletePost(){
+        if(!postId) return;
+        deletePost(postId);
+    }
 
     return (
         <div className="absolute z-20 -bottom-50 right-0 bg-white rounded-lg drop-shadow-xl py-4 w-60 space-y-2 md:w-90 md:space-y-6 md:-bottom-65">
@@ -32,13 +39,18 @@ function StoryOptions({isPublished, postId, onRequestDelete}) {
             <hr className="text-neutral-200"/>
             <Modal.Open opens={"delete"}>
                 <button 
-                className="hover:font-medium flex gap-2 items-center px-4 text-red-600 cursor-pointer md:text-lg "
-                onClick={()=> onRequestDelete?.(postId)}
+                className="hover:font-medium flex gap-2 items-center px-4 text-red-600 cursor-pointer md:text-lg"     disabled={deleteLoading}                
                 >
                     <GoTrash />
                     <span>Delete Story</span>
                 </button>
             </Modal.Open> 
+            
+            <Modal.Window name="delete">
+                <ConfirmAction onClick={handleDeletePost} 
+                icon={<GoTrash className="text-lg"/>} 
+                action={"delete"} loading={deleteLoading} />
+            </Modal.Window>
         </div>
     )
 }

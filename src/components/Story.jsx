@@ -4,7 +4,7 @@ import { useState } from "react";
 import StoryOptions from "./StoryOptions";
 import { formatDateFns } from "../utils/helpers";
 
-function Story({post, isPublished, onRequestDelete}) {
+function Story({post, isPublished, }) {
     const {title, read_time, id, created_at, cover_image_url} = post;
 
     const [open, setOpen] = useState();
@@ -40,7 +40,7 @@ function Story({post, isPublished, onRequestDelete}) {
                     <FaEllipsis className="text-3xl cursor-pointer md:text-4xl" />
                 </button>                
             </div>
-            {open && <StoryOptions isPublished={isPublished} postId={id} onRequestDelete={onRequestDelete} />}
+            {open && <StoryOptions isPublished={isPublished} postId={id} />}
         </div>
     )
 }

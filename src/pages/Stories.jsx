@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import WritePostButton from "../components/WritePostButton";
 import Tab from "../components/Tab";
@@ -10,12 +9,6 @@ import usePublishedPosts from "../features/posts/usePublishedPosts";
 function Stories(){
     const {user} = useAuth();
     const [openDraft, setOpenDraft] = useState(true);
-    const {setPendingDeleteId} = useOutletContext();
-
-    const handleRequestDelete = (postId) => {
-        console.log(postId);
-        setPendingDeleteId(postId);
-    }
 
     const {posts: draftedPosts, isLoading: isLoadingDrafts, error: draftsError, fetchPosts: fetchDrafts} = useDraftedPosts();
     const {posts: publishedPosts, isLoading: isLoadingPublished, error: publishedError, fetchPosts: fetchPublished} = usePublishedPosts();
@@ -56,7 +49,7 @@ function Stories(){
                             <div>{draftsError}</div>
                         ) : (
                             draftedPosts.length > 0 ? 
-                            <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished={false} onRequestDelete={handleRequestDelete} />
+                            <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished={false} />
                             : <div>No drafted post yet!</div> 
                         )
                     }
@@ -69,7 +62,7 @@ function Stories(){
                         ) : (
                             publishedPosts.length > 0 ? 
                             <StoriesList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError}
-                            isPublished={true} onRequestDelete={handleRequestDelete} />
+                            isPublished={true} />
                             : <div>No published post yet!</div> 
                         )
                     }

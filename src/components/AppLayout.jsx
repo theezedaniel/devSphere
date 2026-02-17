@@ -9,13 +9,10 @@ import SideNavBar from "./SideNavBar";
 import Modal from "./Modal";
 import ConfirmAction from "./ConfirmAction";
 import useLogout from "../features/authentication/useLogout";
-import useDeletePost from "../features/posts/useDeletePost";
-import ProfileEdit from "./ProfileEdit";
+
 
 function AppLayout() {
     const [openSideNav, setOpenSideNav] = useState(false);
-    const [pendingDeleteId, setPendingDeleteId] = useState(null);
-    const {loading: deleteLoading, deletePost} = useDeletePost();
     const {loading: logoutLoading, logout} = useLogout();
     
 
@@ -27,12 +24,7 @@ function AppLayout() {
         logout();
     }
 
-    function handleDeletePost(){
-        if(!pendingDeleteId) return;
-        // Simulate deleting a post with the pending ID
-        deletePost(pendingDeleteId);
-        setPendingDeleteId(null); 
-    }
+
 
     return (
         <div className="p-1">
@@ -40,7 +32,7 @@ function AppLayout() {
                 <Navbar toggleSideNav={toggleSideNav} />
                 <main className="text-text p-4 min-h-screen flex justify-center items-start">
                     <SideNavBar display={openSideNav} toggleSideNav={toggleSideNav} />
-                    <Outlet context={{setPendingDeleteId}} />
+                    <Outlet />
                 </main>
                 
                 <Modal.Window name="sign-in">
@@ -51,9 +43,6 @@ function AppLayout() {
                 </Modal.Window>
                 <Modal.Window name="logout">
                     <ConfirmAction onClick={handleLogout} icon={<CiLogout className="text-lg" />} action={"logout"} loading={logoutLoading} />
-                </Modal.Window>
-                <Modal.Window name="delete">
-                    <ConfirmAction onClick={handleDeletePost} icon={<GoTrash className="text-lg"/>} action={"delete"} loading={deleteLoading} />
                 </Modal.Window>                    
             </Modal>
         </div>
