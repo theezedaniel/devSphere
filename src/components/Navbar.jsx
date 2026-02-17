@@ -1,12 +1,12 @@
-import { HiOutlineBars3, HiXMark } from "react-icons/hi2"
+import { HiOutlineBars3,} from "react-icons/hi2"
 import { Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal";
-import Button from "./Button";
+import { GoPerson } from "react-icons/go";
 
 function Navbar({toggleSideNav}) {
     const { user } =  useAuth(); 
-
+    
     return (
         <nav className="flex justify-between items-center px-5 py-3 max-w-xl mx-auto sticky top-0 z-10 w-full backdrop-blur-lg bg-white/30 border-b border-white border-opacity-30 shadow-lg rounded-full mt-10">
             <div className="flex items-center gap-4">
@@ -18,7 +18,11 @@ function Navbar({toggleSideNav}) {
             <div className="flex gap-4 items-center">
                 <Link to="/posts" className="font-medium text-lg lg:text-xl  hover:underline">Articles</Link>
                 {user 
-                ? <img src="../team3.jpg" alt="avatar" className="w-7 h-7 rounded-full" />
+                ? (
+                    <Link to="/profile">
+                        <GoPerson className="text-primary text-xl lg:text-3xl"/>
+                    </Link>
+                )
                 : (
                     <Modal.Open opens="sign-in">
                         <button className="bg-primary text-white px-4 py-1 rounded-full cursor-pointer hover:px-6 transition-all duration-500">Sign in</button>
