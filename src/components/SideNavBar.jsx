@@ -3,16 +3,16 @@ import {useAuth} from "../context/AuthContext.jsx";
 import { GoHome, GoPerson, GoBookmark } from "react-icons/go";
 import { CiSettings, CiLogout } from "react-icons/ci";
 import Modal from "./Modal.jsx";
-// import {useOutsideClick} from "../hooks/useOutsideClick";
+import {useOutsideClick} from "../hooks/useOutsideClick";
 
 function SideNavBar({display, toggleSideNav}) {
     const {user} = useAuth();
-    // const ref = useOutsideClick(toggleSideNav, false);
-
-    
+    const ref = useOutsideClick(() => {
+        if (display) toggleSideNav();
+    }, true);
 
     return (
-        <ul  className={`px-4 py-6 space-y-12 text-xl backdrop-blur-lg shadow-md
+        <ul ref={ref} className={`px-4 py-6 space-y-12 text-xl backdrop-blur-lg shadow-md
         fixed left-0 h-dvh w-64 z-50
         transform transition-transform duration-300 ease-in-out
         ${display ? 'translate-x-0' : '-translate-x-full'}
@@ -39,10 +39,10 @@ function SideNavBar({display, toggleSideNav}) {
                 <span>Stories</span>
             </Link>
 
-            <Link className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
+            {/* <Link className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded lg:text-xl">
                 <CiSettings className="text-primary text-xl lg:text-3xl" />
                 <span>Settings</span>
-            </Link>
+            </Link> */}
 
             {user && (
                 <Modal.Open opens={"logout"}>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom"
 import { CiLogout } from "react-icons/ci";
-import { GoTrash } from "react-icons/go";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Navbar from "./Navbar"

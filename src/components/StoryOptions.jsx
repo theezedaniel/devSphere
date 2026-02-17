@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 import Modal from "./Modal";
 import useDeletePost from "../features/posts/useDeletePost";
+import ConfirmAction from "./ConfirmAction";
 
 
 function StoryOptions({isPublished, postId}) {
