@@ -22,6 +22,7 @@ export async function updateUserProfile(userId, profileData) {
     //2.create an image name (use file name when a File object)
     // choose a base for the image name: existing path, string name, File.name, or fallback 'image'
 
+    
     const imageBase = hasImagePath ? profileData.avatar_url 
         : (typeof profileData.avatar_url === "string" 
             ? profileData.avatar_url : profileData.avatar_url?.name || 'image');

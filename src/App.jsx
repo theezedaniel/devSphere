@@ -22,7 +22,6 @@ function App() {
         <Route element={<AppLayout />}>
           {/* <Route index element= {<Navigate replace to="/" />} /> */}
           <Route path="/" element={<Homepage />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/posts" element={<Posts />} />
@@ -39,6 +38,8 @@ function App() {
             </ProtectedRoute >
           }/> 
           
+          <Route path="/profile" element={<Profile />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

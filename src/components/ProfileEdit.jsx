@@ -1,34 +1,35 @@
 import {useState, useEffect} from "react";
 import useUpdateProfile from "../features/profiles/useUpdateProfile";
+import { GoTrash } from "react-icons/go";
 
 
-export default function ProfileEdit({profile, onCloseModal}) {
+export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     const {loading, updateProfile} = useUpdateProfile();
     const [{avatar_url, first_name, last_name, bio, github_url, linkedIn_url, portfolio_url, twitter_url, role, id}] = profile;
     const [form, setForm] = useState({
-        first_name: "",
-        last_name: "",
-        bio: "",
-        role: "",
-        avatar_url: "",
-        github_url: "",
-        linkedIn_url: "",
-        twitter_url: "",
-        portfolio_url: "",
+        firstName: "",
+        lastName: "",
+        bioData: "",
+        roleData: "",
+        avatarUrl: "",
+        githubUrl: "",
+        linkedInUrl: "",
+        twitterUrl: "",
+        portfolioUrl: "",
     });
 
     // Initialize form state with profile data
     useEffect(() => {
         setForm({
-            first_name: first_name || "",
-            last_name: last_name || "",
-            bio: bio || "",
-            role: role || "",
-            avatar_url: avatar_url || "",
-            github_url: github_url || "",
-            linkedIn_url: linkedIn_url || "",
-            twitter_url: twitter_url || "",
-            portfolio_url: portfolio_url || "",
+            firstName: first_name || "",
+            lastName: last_name || "",
+            bioData: bio || "",
+            roleData: role || "",
+            avatarUrl: avatar_url || "",
+            githubUrl: github_url || "",
+            linkedInUrl: linkedIn_url || "",
+            twitterUrl: twitter_url || "",
+            portfolioUrl: portfolio_url || "",
         });
     }, [profile]);
 
@@ -61,67 +62,85 @@ export default function ProfileEdit({profile, onCloseModal}) {
     const handleCancel = ()=>{
         // Reset form to initial profile values
         setForm({
-            first_name: first_name || "",
-            last_name: last_name || "",
-            bio: bio || "",
-            role: role || "",
-            avatar_url: avatar_url || "",
-            github_url: github_url || "",
-            linkedIn_url: linkedIn_url || "",
-            twitter_url: twitter_url || "",
-            portfolio_url: portfolio_url || "",
+            firstName: first_name || "",
+            lastName: last_name || "",
+            bioData: bio || "",
+            roleData: role || "",
+            avatarUrl: avatar_url || "",
+            githubUrl: github_url || "",
+            linkedInUrl: linkedIn_url || "",
+            twitterUrl: twitter_url || "",
+            portfolioUrl: portfolio_url || "",
         });
         onCloseModal();
     }
 
     const handleSubmit = ()=>{
-        if(!form.first_name || !form.last_name || !form.bio ||!form.role) return;
-        const fileObj = typeof form.avatar_url === "string" ? null : form.avatar_url;
+        if(!form.firstName || !form.lastName || !form.bioData ||!form.roleData) return;
+        const fileObj = typeof form.avatarUrl === "string" ? null : form.avatarUrl;
         if (fileObj && fileObj.size > MAX_IMAGE_SIZE) {
             alert("Image must be under 5MB");
             return;
         }
 
-        const avatarImage = typeof form.avatar_url === "string" ? form.avatar_url : URL.createObjectURL(form.avatar_url);
-
+        // Transform camelCase to snake_case for database columns
         const formData = {
-            ...form,
-            avatar_url: avatarImage,
+            avatar_url: form.avatarUrl,
+            first_name: form.firstName,
+            last_name: form.lastName,
+            bio: form.bioData,
+            role: form.roleData,
+            github_url: form.githubUrl,
+            linkedIn_url: form.linkedInUrl,
+            twitter_url: form.twitterUrl,
+            portfolio_url: form.portfolioUrl,
         }
-        updateProfile(formData, id, { onSuccess: onCloseModal });     
+        updateProfile(formData, id, { 
+            onSuccess: () => {
+                refetchProfile();
+                onCloseModal();
+            } 
+        });     
 
     }
 
-    console.log(avatar_url);
+    
+    
     
     const inputClass = "w-full ring ring-neutral-200 focus:ring-neutral-300 p-2 outline-0";
     return (
-             <form className="w-[600px] p-10 space-y-6 lg:w-[900px]" 
+             <form className="w-[600px] p-10 space-y-6 lg:w-[900px] overflow-y-auto overflow-x-hidden" 
              onSubmit={(e) => {
                  e.preventDefault();
-                 handleSubmit(false);
+                 handleSubmit();
              }}>
                  <h1 className="text-2xl font-bold">Edit Profile</h1>
                 
                  <input
                  type="file"
-                 id="avatar_url"
-                 name="avatar_url"
+                 id="avatarUrl"
+                 name="avatarUrl"
                  accept="image/*"
                  className="lg:text-lg rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
                  onChange={handleChange}
                  />
      
-                 {avatar_url && 
-                     <picture className="w-90 rounded overflow-hidden block md:w-120">
+                 {form.avatarUrl && 
+                    <div className="flex items-end gap-2">
+                     <picture className="w-24 h-24 rounded-full overflow-hidden block md:w-40 md:h-40">
                          <img
-                         src={typeof avatar_url === "string" 
-                             ? avatar_url 
-                             : URL.createObjectURL(avatar_url)}
+                         src={typeof form.avatarUrl === "string" 
+                             ? form.avatarUrl 
+                             : URL.createObjectURL(form.avatarUrl)}
                          alt="Avatar preview"
-                         className="w-full object-cover rounded"
+                         className="w-full h-full object-cover"
                          />
                      </picture>
+                     <button type="button" className="flex items-center gap-1 p-2 text-red-600 cursor-pointer ring ring-gray-200" onClick={() => setForm({...form, avatarUrl: null})}>
+                        {/* <span>Remove</span> */}
+                        <GoTrash className="text-red-600 hover:text-red-500" />
+                     </button>
+                    </div>
                  }
      
      
@@ -130,11 +149,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">First Name</span>
                     <input
                     type="text"
-                    name="first_name"
-                    id="first_name"
+                    name="firstName"
+                    id="firstName"
                     placeholder="John"
                     className={`${inputClass} capitalize `}
-                    value={form.first_name}
+                    value={form.firstName}
                     onChange={handleChange} />
                  </li>
 
@@ -142,11 +161,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Last Name</span>
                     <input
                     type="text"
-                    name="last_name"
-                    id="last_name"
+                    name="lastName"
+                    id="lastName"
                     placeholder="Doe"
                     className={`${inputClass} capitalize `}
-                    value={form.last_name}
+                    value={form.lastName}
                     onChange={handleChange} />
                  </li>   
 
@@ -154,11 +173,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Role</span>
                     <input
                     type="text"
-                    name="role"
-                    id="role"
+                    name="roleData"
+                    id="roleData"
                     placeholder="User"
                     className={`${inputClass} capitalize `}
-                    value={form.role}
+                    value={form.roleData}
                     onChange={handleChange} />
                  </li>
      
@@ -166,10 +185,10 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Bio</span>
                     <textarea
                     placeholder="Write a short bio about yourself..."
-                    name="bio"
-                    id="bio"
+                    name="bioData"
+                    id="bioData"
                     className={`${inputClass} text-lg h-24`}
-                    value={form.bio}
+                    value={form.bioData}
                     onChange={handleChange} />
                  </li>
 
@@ -178,11 +197,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Github Url</span>
                     <input
                     type="text"
-                    name="github_url"
-                    id="github_url"
+                    name="githubUrl"
+                    id="githubUrl"
                     placeholder="https://www.github.com/johndoe"
                     className={`${inputClass} `}
-                    value={form.github_url}
+                    value={form.githubUrl}
                     onChange={handleChange} />
                  </li>
 
@@ -190,11 +209,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">LinkedIn Url</span>
                     <input
                     type="text"
-                    name="linkedIn_url"
-                    id="linkedIn_url"
+                    name="linkedInUrl"
+                    id="linkedInUrl"
                     placeholder="https://www.linkedin.com/in/johndoe"
                     className={`${inputClass} `}
-                    value={form.linkedIn_url}
+                    value={form.linkedInUrl}
                     onChange={handleChange} />
                  </li>
 
@@ -202,11 +221,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Twitter Url</span>
                     <input
                     type="text"
-                    name="twitter_url"
-                    id="twitter_url"
+                    name="twitterUrl"
+                    id="twitterUrl"
                     placeholder="https://www.twitter.com/johndoe"
                     className={`${inputClass} `}
-                    value={form.twitter_url}
+                    value={form.twitterUrl}
                     onChange={handleChange} />
                  </li>
 
@@ -214,11 +233,11 @@ export default function ProfileEdit({profile, onCloseModal}) {
                     <span className="text-lg">Portfolio Url</span>
                     <input
                     type="text"
-                    name="portfolio_url"
-                    id="portfolio_url"
+                    name="portfolioUrl"
+                    id="portfolioUrl"
                     placeholder="https://www.johndoe.com"
                     className={`${inputClass} `}
-                    value={form.portfolio_url}
+                    value={form.portfolioUrl}
                     onChange={handleChange} />
                  </li>
 
@@ -233,7 +252,10 @@ export default function ProfileEdit({profile, onCloseModal}) {
                 onClick={handleCancel}>
                     Cancel
                 </button>
-                <button className="bg-primary px-4 py-2 rounded text-stone-100 hover:bg-primary-darker cursor-pointer">
+                <button type="submit" 
+                className="bg-primary px-4 py-2 rounded text-stone-100 hover:bg-primary-darker cursor-pointer"
+                disabled={loading}
+                >
                     Save Profile
                 </button>
             </div>

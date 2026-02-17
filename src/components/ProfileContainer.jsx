@@ -2,7 +2,7 @@ import { formatDateFns } from "../utils/helpers";
 import Modal from "./Modal";
 import ProfileEdit from "./ProfileEdit";
 
-function ProfileContainer({profile}) {
+function ProfileContainer({profile, refetchProfile}) {
 
     const [{avatar_url, first_name, last_name, bio, github_url, linkedIn_url, portfolio_url, twitter_url, role, created_at, updated_at}] = profile;
 
@@ -79,7 +79,7 @@ function ProfileContainer({profile}) {
                 <button className="bg-primary text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-primary-darker transition-colors lg:w-fit lg:text-lg">Edit Profile</button>
             </Modal.Open>
             <Modal.Window name="profileEdit">
-                <ProfileEdit profile={profile} />
+                <ProfileEdit profile={profile} refetchProfile={refetchProfile} />
             </Modal.Window>
         </div>
     )

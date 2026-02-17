@@ -23,7 +23,7 @@ function Profile() {
             ) : error ? (
                 <p className="text-red-500">Error loading profile: {error}</p>
             ) : (
-                <ProfileContainer profile={profile} />
+                <ProfileContainer profile={profile} refetchProfile={() => fetchProfile(userId)} />
             )
             }
         </div>
