@@ -9,9 +9,10 @@ import PostPage from "./pages/PostPage";
 import Posts from "./pages/Posts";
 import Stories from "./pages/Stories";
 import WritePost from "./pages/WritePost";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import Profile from "./pages/Profile";
 
 
 function App() {
@@ -41,6 +42,11 @@ function App() {
           <Route path="/profile" element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute >
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute >
           } />
 
