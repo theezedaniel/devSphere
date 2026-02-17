@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import ConfirmAction from "./ConfirmAction";
 import useLogout from "../features/authentication/useLogout";
 import useDeletePost from "../features/posts/useDeletePost";
+import ProfileEdit from "./ProfileEdit";
 
 function AppLayout() {
     const [openSideNav, setOpenSideNav] = useState(false);
@@ -53,7 +54,7 @@ function AppLayout() {
                 </Modal.Window>
                 <Modal.Window name="delete">
                     <ConfirmAction onClick={handleDeletePost} icon={<GoTrash className="text-lg"/>} action={"delete"} loading={deleteLoading} />
-                </Modal.Window>
+                </Modal.Window>                    
             </Modal>
         </div>
     )

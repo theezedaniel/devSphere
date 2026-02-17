@@ -3,8 +3,6 @@ import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 import Modal from "./Modal";
 
 
-
-
 function StoryOptions({isPublished, postId, onRequestDelete}) {
     
 
