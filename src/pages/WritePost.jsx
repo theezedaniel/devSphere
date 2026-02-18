@@ -4,6 +4,7 @@ import FormButton from "../components/FormButton";
 import { useAuth } from "../context/AuthContext";
 import useWritePost from "../features/posts/useWritePost";
 import useEditPostById from "../features/posts/useEditPostById";
+import Spinner from "../components/Spinner";
 
 function WritePost(){
     const {user} = useAuth();
@@ -92,7 +93,7 @@ function WritePost(){
 
     const inputClass = "w-full border-l border-l-neutral-300 focus:border-l-neutral-500 outline-0 p-3";
 
-    if(isEditMode && !post) return <p>Loading post...</p> 
+    if(isEditMode && !post) return <Spinner />  
     return (
         <form className="flex-6 space-y-6 p-6 lg:p-10 lg:space-y-10 " 
         onSubmit={(e) => {
