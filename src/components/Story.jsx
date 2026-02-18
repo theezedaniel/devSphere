@@ -40,7 +40,7 @@ function Story({post, isPublished, }) {
                     <FaEllipsis className="text-3xl cursor-pointer md:text-4xl" />
                 </button>                
             </div>
-            {open && <StoryOptions isPublished={isPublished} postId={id} />}
+            {open && <StoryOptions isPublished={isPublished} postId={id} title={title} />}
         </div>
     )
 }
