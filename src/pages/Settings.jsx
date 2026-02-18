@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import useSettings from "../features/settings/useSettings";
 import useUpdateSettings from "../features/settings/useUpdateSettings";
+import Spinner from "../components/Spinner";
 
 function Settings() {
     const {user} = useAuth();
     const userId = user?.id;
     const {data: settings, loading, fetchSettings} = useSettings();
     const [form, setForm] = useState({
-        email_notifications: settings?.email_notifications || false,
-        likes_notifications: settings?.likes_notifications || false,
-        comments_notifications: settings?.comments_notifications || false,
+        email_notifications: false,
+        likes_notifications: false,
+        comments_notifications: false,
     })
     const {updateSettings, loading: updating } = useUpdateSettings();
 
@@ -24,24 +25,35 @@ function Settings() {
             [name]: value,
         }));
     };
- 
-
 
     useEffect(()=>{
         if(!userId) return;
         fetchSettings(userId);
-    }, [userId])
-      
+    }, [userId]) 
+
+    // Update form when settings are fetched
+    useEffect(() => {
+        if (settings) {
+            setForm({
+                email_notifications: settings.email_notifications || false,
+                likes_notifications: settings.likes_notifications || false,
+                comments_notifications: settings.comments_notifications || false,
+            });
+        }
+    }, [settings]);
+
     function handleSubmit(e){
         e.preventDefault();
     }
 
-    function handleNotificationsUpdate(e){
+    async function handleNotificationsUpdate(e){
         e.preventDefault();
-        updateSettings(userId, form);
+        await updateSettings(userId, form);
+        // Refetch settings after successful update
+        await fetchSettings(userId);
     }
 
-    if(loading) <p>Loading....</p>
+    if(loading) return <Spinner />
     return (
         <div className="flex-6 p-10 space-y-6 lg:py-10 lg:px-30">
             <div>
