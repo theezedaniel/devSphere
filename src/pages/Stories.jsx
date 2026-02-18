@@ -37,7 +37,7 @@ function Stories(){
             </div>
             <div>
                 <ul className="flex gap-6 border-b border-b-neutral-300 pb-3 mb-6 text-lg">
-                    <Tab active={openDraft} onClick={showDrafts} name={"Draft"} />
+                    <Tab active={openDraft} onClick={showDrafts} name={"Draft"}  />
                     <Tab active={!openDraft} onClick={showPublished} name={"Published"} />
                 </ul>
 

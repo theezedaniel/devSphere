@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
-import useUpdateProfile from "../features/profiles/useUpdateProfile";
 import { GoTrash } from "react-icons/go";
+import useUpdateProfile from "../features/profiles/useUpdateProfile";
+import SpinnerMini from "./SpinnerMini";
 
 
 export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
@@ -247,15 +248,16 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
      
              <div className="flex gap-4">
                 <button 
-                className="ring ring-neutral-300 px-4 py-2 rounded hover:ring-neutral-400 cursor-pointer"
+                className="ring ring-neutral-300 px-4 py-2 rounded hover:ring-neutral-400 cursor-pointer disabled:cursor-not-allowed"
                 disabled={loading} 
                 onClick={handleCancel}>
                     Cancel
                 </button>
                 <button type="submit" 
-                className="bg-primary px-4 py-2 rounded text-stone-100 hover:bg-primary-darker cursor-pointer"
+                className="flex items-center gap-1 bg-primary px-4 py-2 rounded text-stone-100 hover:bg-primary-darker cursor-pointer disabled:cursor-not-allowed"
                 disabled={loading}
                 >
+                    {loading && <SpinnerMini />}
                     Save Profile
                 </button>
             </div>
