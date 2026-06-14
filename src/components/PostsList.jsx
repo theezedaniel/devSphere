@@ -11,6 +11,10 @@ function PostsList({posts = [], isLoading, error}) {
                     <SkeletonLoading skeletonCount={skeletonCount} />
                 ) : error ? (
                     <p>Error loading posts</p>
+                ) : posts.length === 0 ? (
+                    <div>
+                        <p>No posts available😢</p>
+                    </div>
                 ) : (
                     
                         posts.map(post => (

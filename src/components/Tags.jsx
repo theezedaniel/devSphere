@@ -8,7 +8,7 @@ function Tags({tag, type, onSelect, isSelected}) {
 
     if(type === "filter"){
         return (
-            <button className={`capitalize font-medium  rounded bg-white text-lg px-3 py-2 flex justify-between items-center cursor-pointer hover:bg-stone-200`} onClick={handleSelect} >
+            <button className={`capitalize font-medium  rounded bg-white text-sm px-3 py-2 flex justify-between items-center cursor-pointer hover:bg-stone-200`} onClick={handleSelect} >
                 <span className="capitalize">{tag}</span>
                 {isSelected && <GoCheck className="text-primary" />}
             </button>
@@ -16,7 +16,7 @@ function Tags({tag, type, onSelect, isSelected}) {
     }
 
     return (
-        <li className={`capitalize font-medium ring ring-stone-200 p-3 rounded-xl bg-white lg:text-lg ${!type && `shadow-lg`} ${type && `bg-stone-100`}`}>
+        <li className={`capitalize font-medium ring ring-stone-200 p-3 rounded-xl bg-white text-xs lg:text-sm ${!type && `shadow-lg`} ${type && `bg-stone-100`}`}>
             <span>{tag}</span>
         </li>
     )

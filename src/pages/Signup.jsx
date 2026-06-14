@@ -15,13 +15,13 @@ function Signup() {
     }
 
     return (
-        <div className="flex flex-col gap-5 py-10 px-6 rounded-md w-[500px] m-auto lg:w-[800px] lg:px-20">
+        <div className="flex flex-col gap-5 py-10 px-6 rounded w-[370px] m-auto lg:w-[600px] lg:px-20">
             <header className="text-center space-y-1">
-                <div className="w-[150px] mx-auto">
+                <div className="w-[85px] mx-auto">
                     <Logo/>
                 </div>
-                <h1 className="text-4xl font-bold mt-4 lg:text-5xl">Create Account</h1>
-                <p className="text-sm text-stone-600">Sign up a DevSphere account</p>
+                <h1 className="text-2xl font-bold mt-4 lg:text-3xl">Create Account</h1>
+                <p className="text-xs text-stone-600">Sign up a DevSphere account</p>
             </header>
             <main className="">
                 <form className="flex flex-col gap-4 lg:gap-8" onSubmit={handleSubmit(onSubmit)}>

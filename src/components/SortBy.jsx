@@ -19,11 +19,11 @@ function SortBy() {
         <div className="flex items-center gap-5">
             <button type="button" onClick={()=> handleChange("latest")} className={activeClass("latest")}>
                 <GoClock className="text-xl text-primary" />
-                <p className="text-xl lg:text-2xl">Latest</p>
+                <p className="text-sm lg:text-base">Latest</p>
             </button>
             <button type="button" onClick={()=> handleChange("popular")} className={activeClass("popular")}>
                 <FaFire className="text-xl text-primary" />
-                <p className="text-xl lg:text-2xl">Popular</p>
+                <p className="text-sm lg:text-base">Popular</p>
             </button>
         </div>
     )

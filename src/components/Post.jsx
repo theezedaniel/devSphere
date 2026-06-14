@@ -19,13 +19,13 @@ function Post({post}) {
    
     
     return (
-        <div className="flex flex-col gap-4 bg-white overflow-hidden rounded-xl cursor-pointer shadow">
+        <div className="flex flex-col gap-1 bg-white overflow-hidden rounded-xl cursor-pointer shadow">
             <picture className=" w-full">
                 <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" />
-                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full transition duration-300 ease-in-out transform hover:scale-110"/>
+                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full"/>
             </picture>
-            <div className=" space-y-3 p-5">
-                <h3 className="text-xl font-medium lg:text-2xl">
+            <div className=" space-y-3 px-3 py-2">
+                <h3 className="text-base font-medium lg:text-lg">
                     {title}
                 </h3>
                 <p className="text-stone-600">
@@ -51,9 +51,9 @@ function Post({post}) {
                         <span>{likes_count} likes</span>
                     </div>
                     <Link to={`/posts/${slug}`}>
-                        <div className="flex items-center gap-1 px-5 py-2 rounded bg-primary">
-                            <TbArrowBadgeRightFilled className="text-2xl text-white" />
-                            <span className="text-white font-medium text-lg lg:text-xl">Read</span>
+                        <div className="flex flex-row-reverse items-center px-3 py-1 rounded bg-primary">
+                            <TbArrowBadgeRightFilled className="text-lg text-white" />
+                            <span className="text-white font-medium text-base">Read</span>
                         </div>
                     </Link>
                 </div>

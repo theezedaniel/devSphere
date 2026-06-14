@@ -19,9 +19,9 @@ function Homepage() {
                     <h3 className="uppercase text-center tracking-widest mt-10 font-bold">Explore trending topics</h3>
                     <Filter />
                 </div>
-                <div className="p-10 lg:p-0 lg:max-w-7xl lg:mx-auto">
-                    <h2 className="text-2xl lg:text-3xl font-medium">Popular Articles</h2>
-                    <p className="text-md lg:text-lg text-stone-500 mt-1">Discover trending developer articles</p>
+                <div className="p-10 lg:p-20">
+                    <h2 className="text-xl lg:text-2xl font-medium">Popular Articles</h2>
+                    <p className="text-sm lg:text-base text-stone-500 mt-1">Discover trending developer articles</p>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 lg:gap-6">
                         {isLoading ? (
                             <SkeletonLoading skeletonCount={limit} />
