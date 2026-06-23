@@ -3,7 +3,7 @@ function Button({children, type, disabled}) {
     
     return (
         <button 
-        className={`cursor-pointer 
+        className={`cursor-pointer disabled:cursor-not-allowed 
             ${type === "primary" 
                 ? "bg-stone-800 text-stone-100 p-3 rounded font-medium hover:bg-stone-900"
                 : type === "submit" 

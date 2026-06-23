@@ -1,16 +1,23 @@
-
 import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 import Button from "../components/Button";
 import Logo from "../components/Logo";
-import useLogin from "../features/authentication/useLogin";
 import Modal from "../components/Modal";
+import useLogin from "../features/authentication/useLogin";
+import useGoogleSignIn from "../features/authentication/useGoogleSignIn";
 
 
 function Login({onCloseModal}) {
+    const {handleLogin, isLoading} = useLogin(); 
+    const {handleSignInWithGoogle, isLoading: googleLoading} = useGoogleSignIn();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-    const {handleLogin, isLoading} = useLogin(); 
+
+    
+    const handleGoogleLogin = async () => {
+        await handleSignInWithGoogle({onSuccess: onCloseModal});
+    };
 
     const handleSubmit = (e)=> {
         e.preventDefault();
@@ -40,8 +47,7 @@ function Login({onCloseModal}) {
                         className="w-full border border-gray-300 rounded-md p-2 mt-1 outline-0"
                         id="email"
                         onChange={(e)=> setEmail(e.target.value)} 
-                        disabled={isLoading}
-                        /> 
+                        disabled={isLoading || googleLoading }  /> 
                     </div>
                     <div>
                         <label>Password</label>
@@ -50,15 +56,29 @@ function Login({onCloseModal}) {
                         className="w-full border border-gray-300 rounded-md p-2 mt-1 outline-0"
                         id="password"
                         onChange={(e)=> setPassword(e.target.value)}
-                        disabled={isLoading}
+                        disabled={isLoading || googleLoading}
                         /> 
                     </div>
-                    <Button type="primary" disabled={isLoading}>
+                    <Button type="primary" disabled={isLoading || googleLoading}>
                         {isLoading ? "Logging in..." : "Log in"}
                     </Button>
                 </form>
                 {error && <p className="text-red-600">{error}</p>}            
             </main>    
+
+            <div className="flex items-center gap-4">
+                <div className="w-full h-0.5 bg-stone-300"></div>
+                <p>or</p>
+                <div className="w-full h-0.5 bg-stone-300"></div>
+            </div>            
+            <button 
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}  
+                className="w-fit mx-auto cursor-pointer ring rounded-full px-4 py-2 flex items-center gap-2 disabled:cursor-not-allowed"
+                >
+                <FcGoogle className="text-lg" />
+                <span>Sign In with Google Account</span>
+            </button>
             <p className="italic">
                 Don't have an account? 
                 <Modal.Open opens="sign-up">

@@ -1,14 +1,20 @@
-import { Link } from "react-router-dom"
 import Button from "../components/Button"
 import Logo from "../components/Logo"
 import { useForm } from "react-hook-form";
 import useSignUp from "../features/authentication/useSignUp";
 import Modal from "../components/Modal";
+import useGoogleSignIn from "../features/authentication/useGoogleSignIn";
+import { FcGoogle } from "react-icons/fc";
 
 function Signup() {
     const {handleSignUp, isLoading, error} = useSignUp();
+    const {handleSignInWithGoogle, isLoading: googleLoading} = useGoogleSignIn();
     const {register, handleSubmit, formState} = useForm();
     const {errors} = formState;
+
+    const handleGoogleLogin = async () => {
+        await handleSignInWithGoogle({onSuccess: onCloseModal});
+    };
 
     const onSubmit = ({email, password})=>{
         handleSignUp({email, password});
@@ -64,7 +70,20 @@ function Signup() {
                     </Button>
                 </form>
                 {error && <p className="text-red-400">{error}</p>}
-            </main>    
+            </main>
+            <div className="flex items-center gap-4">
+                <div className="w-full h-0.5 bg-stone-300"></div>
+                <p>or</p>
+                <div className="w-full h-0.5 bg-stone-300"></div>
+            </div>
+            <button 
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}  
+                className="w-fit mx-auto cursor-pointer ring rounded-full px-4 py-2 flex items-center gap-2 disabled:cursor-not-allowed"
+                >
+                <FcGoogle className="text-lg" />
+                <span>Sign up with Google Account</span>
+            </button>    
             <p className="italic">
                 Have an account? 
                 <Modal.Open opens="sign-in">
