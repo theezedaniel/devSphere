@@ -15,42 +15,42 @@ function SideNavBar({display, toggleSideNav}) {
         return null;
 
     return (
-        <ul ref={ref} className={`px-4 py-6 space-y-12 text-base lg:text-lg backdrop-blur-lg shadow-md
-        fixed left-0 h-dvh w-64 z-50
+        <ul ref={ref} className={`px-4 py-6 space-y-12 text-base backdrop-blur-lg shadow-md
+        fixed left-0 h-dvh w-64 z-50 
         transform transition-transform duration-300 ease-in-out
         ${display ? 'translate-x-0' : '-translate-x-full'}
-        lg:static lg:translate-x-0 lg:z-auto lg:block lg:w-64 lg:transition-none
+        lg:sticky lg:top-30 lg:translate-x-0 lg:z-auto lg:block lg:w-40 lg:p-1 lg:transition-none lg:shadow-none lg:border-r lg:border-r-stone-200
         `}>
             
             <Link to="/" className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                <GoHome className="text-primary text-xl lg:text-3xl" />
+                <GoHome className="text-primary text-xl" />
                 <span>Home</span>                
             </Link>
             
             <Link to={"/profile"} className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                <GoPerson className="text-primary text-xl lg:text-3xl" />
+                <GoPerson className="text-primary text-xl" />
                 <span>Profile</span>
             </Link>
 
             {/* <Link className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                <GoBookmark className="text-primary text-xl lg:text-3xl" />
+                <GoBookmark className="text-primary text-xl" />
                 <span>Library</span>
             </Link> */}
 
             <Link to={"/stories"} className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                <GoBookmark className="text-primary text-xl lg:text-3xl" />
+                <GoBookmark className="text-primary text-xl" />
                 <span>Stories</span>
             </Link>
 
             <Link to={"/settings"} className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                <CiSettings className="text-primary text-xl lg:text-3xl" />
+                <CiSettings className="text-primary text-xl" />
                 <span>Settings</span>
             </Link>
 
             {user && (
                 <Modal.Open opens={"logout"}>
                 <li className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
-                    <CiLogout className="text-primary text-xl lg:text-3xl" />
+                    <CiLogout className="text-primary text-xl" />
                     <span>Logout</span>
                 </li>
                 </Modal.Open>

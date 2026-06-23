@@ -6,12 +6,10 @@ import SpinnerMini from "./SpinnerMini";
 
 export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     const {loading, updateProfile} = useUpdateProfile();
-    const [{avatar_url, first_name, last_name, bio, github_url, linkedIn_url, portfolio_url, twitter_url, role, id}] = profile;
+    const [{avatar_url, full_name, bio, github_url, linkedIn_url, portfolio_url, twitter_url, id}] = profile;
     const [form, setForm] = useState({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         bioData: "",
-        roleData: "",
         avatarUrl: "",
         githubUrl: "",
         linkedInUrl: "",
@@ -22,10 +20,8 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     // Initialize form state with profile data
     useEffect(() => {
         setForm({
-            firstName: first_name || "",
-            lastName: last_name || "",
+            fullName: full_name || "",
             bioData: bio || "",
-            roleData: role || "",
             avatarUrl: avatar_url || "",
             githubUrl: github_url || "",
             linkedInUrl: linkedIn_url || "",
@@ -63,10 +59,8 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     const handleCancel = ()=>{
         // Reset form to initial profile values
         setForm({
-            firstName: first_name || "",
-            lastName: last_name || "",
+            fullName: full_name || "",
             bioData: bio || "",
-            roleData: role || "",
             avatarUrl: avatar_url || "",
             githubUrl: github_url || "",
             linkedInUrl: linkedIn_url || "",
@@ -77,7 +71,7 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     }
 
     const handleSubmit = ()=>{
-        if(!form.firstName || !form.lastName || !form.bioData ||!form.roleData) return;
+        if(!form.fullName || !form.bioData ) return;
         const fileObj = typeof form.avatarUrl === "string" ? null : form.avatarUrl;
         if (fileObj && fileObj.size > MAX_IMAGE_SIZE) {
             alert("Image must be under 5MB");
@@ -87,10 +81,8 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
         // Transform camelCase to snake_case for database columns
         const formData = {
             avatar_url: form.avatarUrl,
-            first_name: form.firstName,
-            last_name: form.lastName,
+            full_name: form.fullName,
             bio: form.bioData,
-            role: form.roleData,
             github_url: form.githubUrl,
             linkedIn_url: form.linkedInUrl,
             twitter_url: form.twitterUrl,
@@ -110,19 +102,20 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
     
     const inputClass = "w-full ring ring-neutral-200 focus:ring-neutral-300 p-2 outline-0";
     return (
-             <form className="w-[600px] p-10 space-y-6 lg:w-[900px] overflow-y-auto overflow-x-hidden" 
+             <form className="w-[370px] h-[550px] lg:w-[600px] px-6 py-4 space-y-3 overflow-y-auto" 
              onSubmit={(e) => {
                  e.preventDefault();
                  handleSubmit();
              }}>
-                 <h1 className="text-2xl font-bold">Edit Profile</h1>
+                 <h1 className="text-xl lg:text-2xl font-bold">Edit Profile</h1>
                 
+                <div className="flex flex-col-reverse gap-3">
                  <input
                  type="file"
                  id="avatarUrl"
                  name="avatarUrl"
                  accept="image/*"
-                 className="lg:text-lg rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
+                 className="text-sm rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
                  onChange={handleChange}
                  />
      
@@ -143,59 +136,36 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
                      </button>
                     </div>
                  }
+                 </div>
      
      
-                <ul className="grid grid-cols-2 gap-6">
+                <ul className="grid grid-cols-1  lg:grid-cols-2 gap-6">
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">First Name</span>
+                    <span className="text-sm">Full Name</span>
                     <input
                     type="text"
-                    name="firstName"
-                    id="firstName"
-                    placeholder="John"
+                    name="fullName"
+                    id="fullName"
+                    placeholder="John Kennedy"
                     className={`${inputClass} capitalize `}
-                    value={form.firstName}
+                    value={form.fullName}
                     onChange={handleChange} />
                  </li>
-
+                      
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Last Name</span>
-                    <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    placeholder="Doe"
-                    className={`${inputClass} capitalize `}
-                    value={form.lastName}
-                    onChange={handleChange} />
-                 </li>   
-
-                 <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Role</span>
-                    <input
-                    type="text"
-                    name="roleData"
-                    id="roleData"
-                    placeholder="User"
-                    className={`${inputClass} capitalize `}
-                    value={form.roleData}
-                    onChange={handleChange} />
-                 </li>
-     
-                 <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Bio</span>
+                    <span className="text-sm">Bio</span>
                     <textarea
                     placeholder="Write a short bio about yourself..."
                     name="bioData"
                     id="bioData"
-                    className={`${inputClass} text-lg h-24`}
+                    className={`${inputClass} text-sm h-24`}
                     value={form.bioData}
                     onChange={handleChange} />
                  </li>
 
                   {/* links   */}
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Github Url</span>
+                    <span className="text-sm">Github Url</span>
                     <input
                     type="text"
                     name="githubUrl"
@@ -207,7 +177,7 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
                  </li>
 
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">LinkedIn Url</span>
+                    <span className="text-sm">LinkedIn Url</span>
                     <input
                     type="text"
                     name="linkedInUrl"
@@ -219,7 +189,7 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
                  </li>
 
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Twitter Url</span>
+                    <span className="text-sm">Twitter Url</span>
                     <input
                     type="text"
                     name="twitterUrl"
@@ -231,7 +201,7 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
                  </li>
 
                  <li className="flex gap-1 flex-col">
-                    <span className="text-lg">Portfolio Url</span>
+                    <span className="text-sm">Portfolio Url</span>
                     <input
                     type="text"
                     name="portfolioUrl"

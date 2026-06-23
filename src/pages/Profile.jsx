@@ -17,8 +17,8 @@ function Profile() {
 
             
     return (
-        <div className="flex-6 p-10 space-y-6 lg:py-10 lg:px-30">
-            <h2 className="text-4xl font-bold lg:text-5xl">My Profile</h2>
+        <div className="flex-6 py-3 px-2 space-y-6 lg:py-2 lg:px-10">
+            <h2 className="text-2xl font-bold">My Profile</h2>
             { loading ? (
                 <Spinner />
             ) : error ? (

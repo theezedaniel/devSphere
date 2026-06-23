@@ -20,7 +20,7 @@ function Navbar({toggleSideNav}) {
                 {user 
                 ? (
                     <Link to="/profile">
-                        <GoPerson className="text-primary text-xl lg:text-3xl"/>
+                        <GoPerson className="text-primary text-xl"/>
                     </Link>
                 )
                 : (
