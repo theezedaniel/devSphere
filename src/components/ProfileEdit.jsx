@@ -128,6 +128,7 @@ export default function ProfileEdit({profile, onCloseModal, refetchProfile}) {
                              : URL.createObjectURL(form.avatarUrl)}
                          alt="Avatar preview"
                          className="w-full h-full object-cover"
+                         crossOrigin="anonymous"
                          />
                      </picture>
                      <button type="button" className="flex items-center gap-1 p-2 text-red-600 cursor-pointer ring ring-gray-200" onClick={() => setForm({...form, avatarUrl: null})}>

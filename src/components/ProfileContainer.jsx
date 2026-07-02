@@ -15,7 +15,7 @@ function ProfileContainer({profile, refetchProfile}) {
         <div className="p-8 ring-1 ring-gray-300 rounded-lg space-y-9 flex flex-col justify-center lg:px-12 lg:py-10">
             <div className="flex items-center gap-6">
                 <picture className="w-32 h-32 rounded-full overflow-hidden ring ring-primary lg:w-35 lg:h-35">
-                    <img src={avatar_url || "../team3.jpg"} alt="profile picture" className="w-full h-full object-cover" />
+                    <img src={avatar_url || "../team3.jpg"} alt="profile picture" className="w-full h-full object-cover" crossOrigin="anonymous" />
                 </picture>
                 <div className="space-y-1">
                     <h2 className="text-lg font-medium capitalize lg:text-xl">
@@ -58,13 +58,13 @@ function ProfileContainer({profile, refetchProfile}) {
             <div className="space-y-2 lg:space-y-3">
                 <h3 className="text-lg font-medium lg:text-xl">Links</h3>
                 <div>
-                    <a href={github_url || "#"} className="text-primary hover:underline lg:text-lg">GitHub</a>
+                    <a href={github_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">GitHub</a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={linkedIn_url || "#"} className="text-primary hover:underline lg:text-lg">LinkedIn</a>
+                    <a href={linkedIn_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">LinkedIn</a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={twitter_url || "#"} className="text-primary hover:underline lg:text-lg">Twitter</a>
+                    <a href={twitter_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">Twitter</a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={portfolio_url || "#"} className="text-primary hover:underline lg:text-lg">Portfolio</a>
+                    <a href={portfolio_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">Portfolio</a>
 
                 </div>
             </div>
