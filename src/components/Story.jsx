@@ -15,12 +15,12 @@ function Story({post, isPublished, }) {
     return (
         <div className="relative flex gap-4 rounded-xl cursor-pointer shadow lg:w-full">
             <picture className="hidden md:block flex-2 md:flex-1">
-                <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" />
-                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full transition duration-300 ease-in-out transform hover:scale-110"/>
+                <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" crossOrigin="anonymous" />
+                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full transition duration-300 ease-in-out transform hover:scale-110" crossOrigin="anonymous"/>
             </picture>
             <div className=" flex-4 flex flex-col justify-between p-5">
                 <div className="space-y-3">
-                    <h3 className="text-xl font-medium lg:text-2xl">
+                    <h3 className="text-lg font-medium lg:text-2xl">
                         {title}
                     </h3>                
                     <div className="flex gap-2">

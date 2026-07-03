@@ -66,64 +66,141 @@ export async function getUserPublishedPosts(userId) {
 }
 
 
-export async function writePost(post, postId) {
-    
+/**
+ * Upload a cover image to Supabase Storage
+ * Returns the public URL
+ */
+async function uploadPostImage(file) {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
-    //1.checking if it has an image path already
-    const hasImagePath = post.cover_image_url?.startsWith?.(supabaseUrl);
-    //2.create an image name (use file name when a File object)
-    // choose a base for the image name: existing path, string name, File.name, or fallback 'image'
-    const imageBase = hasImagePath ? post.cover_image_url : (typeof post.cover_image_url === "string" ? post.cover_image_url : post.cover_image_url?.name || 'image');
-    const imageName = `${Math.random()}-${imageBase}`.replaceAll("/", "");
- 
-    //3.make sure it follows this pattern   https://cbicjzbuopidnsoqmbqa.supabase.co/storage/v1/object/public/post-images/team3.jpg
-    const imagePath = hasImagePath ? post.cover_image_url : `${supabaseUrl}/storage/v1/object/public/post-images/${imageName}`
-     
-    // If postId exists, UPDATE the post; otherwise INSERT a new one
-    let query;
-     
-    if (postId) {
-        // UPDATE existing post
-        query = supabase
-            .from('posts')
-            .update({ ...post, cover_image_url: imagePath })
-            .eq('id', postId)
-            .select();
-    } else {
-        // INSERT new post
-        query = supabase
-            .from('posts')
-            .insert([
-                { ...post, cover_image_url: imagePath },
-            ])
-            .select();
-    }
- 
-    const {data, error } = await query;
- 
-    if (error) {
-        console.error(error);
-        throw new Error(postId ? "Post could not be updated!" : "Post could not be created!");
-    }
- 
-     //2. Upload image
-    if(hasImagePath) return data;
-    // if the cover was already a hosted URL, skip upload and return DB result
-    const {error: storageError } = await supabase
-    .storage
-    .from('post-images')
-    .upload(imageName, post.cover_image_url)
-    //3. Delete the post if there was an error uploading image
-    if(storageError) {
-        await supabase
-    .from("posts")
-    .delete()
-    .eq("id", Array.isArray(data) ? data[0]?.id : data?.id);
-     console.error(storageError)
-     throw new Error("Post image could not be uploaded and the post was not created")
-     }
- 
-     return data;
+  if (authError || !user) {
+    throw new Error("User not authenticated.");
+  }
+
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${crypto.randomUUID()}.${fileExt}`;
+  const filePath = `${user.id}/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("post-images")
+    .upload(filePath, file);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Failed to upload cover image.");
+  }
+
+  const { data } = supabase.storage
+    .from("post-images")
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
+/**
+ * Delete an image from Supabase Storage.
+ * Expects a public URL.
+ */
+async function deletePostImage(imageUrl) {
+  if (!imageUrl?.startsWith(supabaseUrl)) return;
+
+  const path = imageUrl.split("/storage/v1/object/public/post-images/")[1];
+
+  if (!path) return;
+
+  const { error } = await supabase.storage
+    .from("post-images")
+    .remove([path]);
+
+  if (error) {
+    // Don't throw. The post was already updated.
+    console.error("Failed to delete old image:", error);
+  }
+}
+
+export async function writePost(post, postId) {
+  let coverImageUrl = post.cover_image_url;
+  let oldCoverImageUrl = null;
+
+  const hasExistingImage =
+    typeof coverImageUrl === "string" &&
+    coverImageUrl.startsWith(supabaseUrl);
+
+  /**
+   * Editing?
+   * Fetch current cover image so we can remove it later.
+   */
+  if (postId) {
+    const { data: currentPost } = await supabase
+      .from("posts")
+      .select("cover_image_url")
+      .eq("id", postId)
+      .single();
+
+    oldCoverImageUrl = currentPost?.cover_image_url ?? null;
+  }
+
+  /**
+   * Upload new image if a File was selected
+   */
+  if (!hasExistingImage && coverImageUrl instanceof File) {
+    coverImageUrl = await uploadPostImage(coverImageUrl);
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  
+  const payload = {
+    ...post,
+    author_id: user.id,
+    cover_image_url: coverImageUrl,
+  };
+
+  let query;
+
+  if (postId) {
+    query = supabase
+      .from("posts")
+      .update(payload)
+      .eq("id", postId)
+      .select()
+      .single();
+  } else {
+    query = supabase
+      .from("posts")
+      .insert(payload)
+      .select()
+      .single();
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      postId
+        ? "Post could not be updated."
+        : "Post could not be created."
+    );
+  }
+
+  /**
+   * Delete previous cover image only after
+   * successful update.
+   */
+  if (
+    postId &&
+    oldCoverImageUrl &&
+    oldCoverImageUrl !== coverImageUrl
+  ) {
+    await deletePostImage(oldCoverImageUrl);
+  }
+
+  return data;
 }
 
 

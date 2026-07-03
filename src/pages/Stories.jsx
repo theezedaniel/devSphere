@@ -32,11 +32,11 @@ function Stories(){
     return ( 
         <div className="flex-6 p-8 space-y-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Stories</h1>
+                <h1 className="text-2xl font-bold">Stories</h1>
                 <WritePostButton />
             </div>
             <div>
-                <ul className="flex gap-6 border-b border-b-neutral-300 pb-3 mb-6 text-lg">
+                <ul className="flex gap-6 border-b border-b-neutral-300 pb-3 mb-6 text-base">
                     <Tab active={openDraft} onClick={showDrafts} name={"Draft"}  />
                     <Tab active={!openDraft} onClick={showPublished} name={"Published"} />
                 </ul>

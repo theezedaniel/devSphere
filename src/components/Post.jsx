@@ -21,8 +21,8 @@ function Post({post}) {
     return (
         <div className="flex flex-col gap-1 bg-white overflow-hidden rounded-xl cursor-pointer shadow">
             <picture className=" w-full">
-                <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" />
-                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full"/>
+                <source srcSet={cover_image_url || "../team3.jpg"} type="image/jpg" crossOrigin="anonymous" />
+                <img src={cover_image_url || "../team3.jpg"} alt="post image" className="w-full" crossOrigin="anonymous"/>
             </picture>
             <div className=" space-y-3 px-3 py-2">
                 <h3 className="text-base font-medium lg:text-lg">

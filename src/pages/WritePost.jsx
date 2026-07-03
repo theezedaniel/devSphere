@@ -106,7 +106,7 @@ function WritePost(){
             id="coverImage"
             name="cover_image_url"
             accept="image/*"
-            className="text-lg rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
+            className="text-sm rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
             onChange={handleChange}
             />
 
@@ -117,7 +117,7 @@ function WritePost(){
                         ? form.cover_image_url 
                         : URL.createObjectURL(form.cover_image_url)}
                     alt="Cover preview"
-                    className="w-full object-cover rounded"
+                    className="w-full object-cover rounded" crossOrigin="anonymous"
                     />
                 </picture>
             }
@@ -129,7 +129,7 @@ function WritePost(){
             name="title"
             id="title"
             placeholder="Post title"
-            className={`${inputClass} placeholder:uppercase placeholder:tracking-widest font-semibold text-3xl`}
+            className={`${inputClass} placeholder:uppercase placeholder:tracking-widest font-semibold text-lg`}
             value={form.title}
             onChange={handleChange} />
 
@@ -137,7 +137,7 @@ function WritePost(){
             placeholder="Short summary"
             name="summary"
             id="summary"
-            className={`${inputClass} text-lg h-24`}
+            className={`${inputClass} text-base h-24`}
             value={form.summary}
             onChange={handleChange} />
 
@@ -147,7 +147,7 @@ function WritePost(){
             name="tags"
             id="tags"
             placeholder="Tags (comma separated)"
-            className={`${inputClass} text-lg`}
+            className={`${inputClass} text-base`}
             value={form.tags}
             onChange={handleChange} />
 
@@ -155,7 +155,7 @@ function WritePost(){
             placeholder="Write your article here..."
             name="content"
             id="content"
-            className={`${inputClass} text-lg h-64`}
+            className={`${inputClass} text-base h-64`}
             value={form.content}
             onChange={handleChange}
         />
