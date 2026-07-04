@@ -57,11 +57,11 @@ function Settings() {
     return (
         <div className="flex-6 p-10 space-y-6 lg:py-10 lg:px-30">
             <div>
-                <h2 className="text-4xl font-bold lg:text-5xl">Account Settings</h2>
-                <p className="text-lg text-stone-600 lg:text-xl">Make changes to your personal information or account type</p>
+                <h2 className="text-xl font-bold lg:text-2xl">Account Settings</h2>
+                <p className="text-sm text-stone-600">Make changes to your personal information or account type</p>
             </div>
             <div className="lg:w-[800px]">
-                <h2 className="text-xl font-medium">Your account</h2>
+                <h2 className="text-lg font-medium">Your account</h2>
                 <form className="space-y-5" onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="email" className="flex items-center gap-1  text-stone-600 mt-3">
@@ -86,7 +86,7 @@ function Settings() {
             </div>
 
             <div>
-                <h2 className="text-xl font-medium">Notifications Settings</h2>
+                <h2 className="text-lg font-medium">Notifications Settings</h2>
                 <p className="text-stone-600 lg:text-xl">
                     We may send you notifications about your account activity and updates. You can manage your notification preferences in your account settings.
                 </p>
@@ -132,9 +132,9 @@ function Settings() {
             </div>
 
             <div className="border-t border-stone-300 pt-5 mt-10">
-                <h2 className="text-xl font-medium">Account Deletion</h2>
+                <h2 className="text-lg font-medium">Account Deletion</h2>
                 <p className="text-stone-600 lg:text-xl">Deleting your account is permanent and cannot be undone.</p>
-                <button className="bg-stone-500 text-stone-50 px-6 py-2 rounded cursor-pointer mt-5 hover:bg-stone-600">Delete Account</button>
+                <button className="bg-red-600 text-stone-50 px-6 py-2 rounded cursor-pointer mt-5 hover:bg-red-600">Delete Account</button>
             </div>
             
         </div>

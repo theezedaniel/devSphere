@@ -8,7 +8,7 @@ import Signup from "./pages/Signup"
 import PostPage from "./pages/PostPage";
 import Posts from "./pages/Posts";
 import Stories from "./pages/Stories";
-import WritePost from "./pages/WritePost";
+import WritePost from "./features/posts/WritePost";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 
@@ -65,9 +65,9 @@ function App() {
         duration: 5000,
       },
       style: {
-        fontSize: "16px",
+        fontSize: "12px",
         maxWidth: "500px",
-        padding: "16px 20px",
+        padding: "13px 18px",
         backgroundColor: "white",
         color: "black"
       }

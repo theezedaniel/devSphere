@@ -1,6 +1,9 @@
-import { formatDateFns } from "../utils/helpers";
-import Modal from "./Modal";
 import ProfileEdit from "./ProfileEdit";
+import Modal from "./Modal";
+import { formatDateFns } from "../utils/helpers";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter, FaLink } from "react-icons/fa6";
+
 
 function ProfileContainer({profile, refetchProfile}) {
 
@@ -41,30 +44,38 @@ function ProfileContainer({profile, refetchProfile}) {
                             {date_joined}
                         </span>
                     </li>
-                    <li className="flex flex-col">
+                    {/* <li className="flex flex-col">
                         <span className="text-gray-500 font-medium text-sm  lg:text-base">Date Updated:</span>
                         <span className="font-medium capitalize text-base lg:text-lg">
                             {date_updated}
                         </span>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
 
             <div className="space-y-2 lg:space-y-3">
                 <h3 className="text-lg font-medium lg:text-xl">About Me</h3>
-                <p className="text-gray-700 lg:text-lg">{bio || "No information available."}</p>
+                <p className="text-gray-700 text-sm lg:text-base">{bio || "No information available."}</p>
             </div>
 
             <div className="space-y-2 lg:space-y-3">
                 <h3 className="text-lg font-medium lg:text-xl">Links</h3>
-                <div>
-                    <a href={github_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">GitHub</a>
+                <div className="flex items-center">
+                    <a href={github_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">
+                        <FaGithub className="text-base" />
+                    </a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={linkedIn_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">LinkedIn</a>
+                    <a href={linkedIn_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">
+                        <FaLinkedin className="text-base" />
+                    </a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={twitter_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">Twitter</a>
+                    <a href={twitter_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">
+                        <FaXTwitter className="text-base" />
+                    </a>
                     <span className="mx-2 text-gray-500">|</span>
-                    <a href={portfolio_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">Portfolio</a>
+                    <a href={portfolio_url || "#"} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline lg:text-lg">
+                        <FaLink className="text-base" />
+                    </a>
 
                 </div>
             </div>

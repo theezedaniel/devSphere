@@ -4,7 +4,7 @@
 
 .corner-gradient {
   /* Using a radial gradient gives a nice corner spotlight effect */
-  background-image: radial-gradient(circle at top left, rgba(99, 101, 241, 0.274) 0%, rgba(0, 0, 0, 0) 50%);
+  background-image: radial-gradient(circle at top left, rgba(99, 101, 241, 0.174) 0%, rgba(0, 0, 0, 0) 50%);
   background-attachment: fixed; /* Ensures it stays put when scrolling */
 }
 

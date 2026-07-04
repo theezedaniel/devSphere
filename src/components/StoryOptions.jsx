@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 import Modal from "./Modal";
 import ConfirmAction from "./ConfirmAction";
 import useDeletePost from "../features/posts/useDeletePost";
 import useCopyLinkButton from "../hooks/useCopyLinkButton";
 import { slugify } from "../utils/slugify";
+import { GoLink, GoPencil, GoTrash } from "react-icons/go";
 
 
 function StoryOptions({isPublished, postId, title}) {
@@ -25,14 +25,14 @@ function StoryOptions({isPublished, postId, title}) {
     }
 
     return (
-        <div className="absolute z-20 -bottom-35 right-0 bg-white rounded-lg drop-shadow-xl py-4 w-60 space-y-2 md:w-90 md:space-y-6 md:-bottom-65">
+        <div className="absolute z-40 -bottom-28 right-0 bg-white rounded-lg drop-shadow-xl py-4 w-60 space-y-2 md:w-90 md:space-y-6 md:-bottom-65">
             <p className="hover:font-medium flex gap-2 items-center px-4 mb-2 md:text-lg cursor-pointer" onClick={handleCopyLinkClick}>
                 <GoLink />
                 <span>{copied ? "Link Copied!" : "Copy Link"}</span>
             </p>
             <hr className="text-neutral-200"/>
             <ul className="space-y-4 px-4 md:text-lg">
-                <Link to={`/stories/write/${postId}`} className="hover:font-medium flex gap-2 items-center">
+                <Link to={`/stories/write/${postId}`} className="hover:font-medium  flex gap-2 items-center">
                     <GoPencil />
                     <span>Edit Story</span>
                 </Link>

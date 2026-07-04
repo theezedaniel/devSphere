@@ -11,7 +11,7 @@ export default function ConfirmAction({action, icon, onClick, loading,  onCloseM
 
     return (
         <div className="flex flex-col gap-8 py-10 px-6 rounded-md w-[500px] m-auto lg:w-[800px] lg:px-20">
-            <p className="text-center font-medium text-xl lg:text-2xl">Are you sure you want to {action}?</p>
+            <p className="text-center font-medium text-lg lg:text-xl">Are you sure you want to {action}?</p>
             <div className="flex gap-4">
                 <button className="flex-4 ring-2 ring-stone-300 p-3 font-medium rounded cursor-pointer transition-all duration-100 hover:bg-stone-50 lg:text-lg" onClick={handleCancel}>Cancel</button>
                 <button 
