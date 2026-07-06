@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import TemplateSelection from "./pages/TemplateSelection";
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/posts/:slug" element={<PostPage />} />
-          <Route path="/stories/write" element={
+          <Route path="/stories/write" element={<TemplateSelection />}/> 
+          <Route path="/stories/write/:templateId" element={
             <ProtectedRoute>
               <WritePost />
             </ProtectedRoute >

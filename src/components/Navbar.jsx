@@ -18,7 +18,7 @@ function Navbar({toggleSideNav}) {
             <div className="flex gap-4 items-center">
                 <Link to="/posts" className="font-medium text-base lg:text-lg  hover:underline">Articles</Link>
                 {user 
-                ? (
+                ? ( 
                     <Link to="/profile">
                         <GoPerson className="text-primary text-xl"/>
                     </Link>

@@ -6,10 +6,11 @@ import { useAuth } from "../../context/AuthContext";
 import useWritePost from "./useWritePost";
 import useEditPostById from "./useEditPostById";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { getTemplate } from "../../utils/getTemplate";
 
 function WritePost() {
     const { user } = useAuth();
-    const { postId } = useParams();
+    const { postId, templateId } = useParams();
     const { writePost, loading } = useWritePost(user);
     const { post, fetchPost } = useEditPostById();
 
@@ -96,6 +97,18 @@ function WritePost() {
             setForm(post);
         }
     }, [post]);
+
+    useEffect(()=> {
+        if(templateId) {
+            const template = getTemplate(templateId);
+            setForm({
+                title: template.placeholderTitle,
+                summary: template.placeholderSummary,
+                content: template.content,
+                tags: template.defaultTags.join(", "),
+            });
+        }
+    }, [templateId])
 
 
     const inputClass = "w-full border-l border-l-neutral-300 focus:border-l-neutral-500 outline-0 p-3";
