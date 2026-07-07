@@ -11,7 +11,7 @@ function useWritePost(user) {
     const navigate = useNavigate();
 
     async function writePost({
-        title, summary, content, tags, coverImageUrl, published, 
+        title, summary, content, tags, coverImageUrl, published, template 
     }, postId){
 
         const slug = slugify(title);
@@ -29,6 +29,7 @@ function useWritePost(user) {
                 cover_image_url: coverImageUrl, 
                 read_time: readTime, 
                 published,
+                template,
                 author_id: user.id,
             }, postId)
             toast.success(`Post ${published ? "published" : "saved as draft"} successfully`);

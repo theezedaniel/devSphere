@@ -76,6 +76,7 @@ function WritePost() {
                 coverImageUrl: coverImage, //coverImage,
                 tags: normalizedTagsText,
                 published,
+                template: templateId,
             },
             postId //pass postId to update existing post, if postId is undefined, a new post will be created);
         );
