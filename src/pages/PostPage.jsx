@@ -31,21 +31,21 @@ function PostPage() {
     if(postError || profileError) return <p>{postError?.message || profileError?.message}</p>;
     if(postLoading || profileLoading || !post) return <Spinner />;
 
-    const {title, content, cover_image_url, author_id, read_time, created_at } = post;
+    const {title, content, cover_image_url, read_time, created_at } = post;
     const dateTime = formatDateFns(created_at);
  
     return (
-        <div className="p-3 lg:p-10 flex flex-col gap-5">
-            <div className="flex items-center gap-1 cursor-pointer" onClick={goBack}>
+        <div className=" flex-6 px-3 py-12 lg:px-50 flex flex-col gap-5">
+            {/* <div className="flex items-center gap-1 cursor-pointer" onClick={goBack}>
                 <IoArrowBackCircleOutline className="text-xl text-stone-600" />
                 <span className="text-sm text-stone-600">Back</span>
-            </div>
+            </div> */}
             <div className="text-center flex flex-col justify-center items-center gap-2">
-                <h1 className="text-2xl font-bold mb-4">{title} </h1>
+                <h1 className="text-2xl lg:text-4xl font-bold mb-4">{title} </h1>
                 <PostDetails profile={profile} readTime={read_time} dateTime={dateTime} />
                 <article className="">
-                    <div>
-                        <img src={cover_image_url} alt="cover image" crossOrigin="anonymous" />
+                    <div className="w-full h-70 lg:h-100">
+                        <img src={cover_image_url} alt="cover image" crossOrigin="anonymous" className="w-full h-full object-cover" />
                     </div>
                     <p className="text-sm/8 text-left lg:text-base/10">{content}</p>
                 </article>
