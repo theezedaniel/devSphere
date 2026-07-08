@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
+import Tags from "./Tags"
 import { GoClock, GoHeart } from "react-icons/go";
 import { TbArrowBadgeRightFilled } from "react-icons/tb";
-import Tags from "./Tags"
 import { formatDistanceFromNow } from "../utils/helpers";
+import { slugify } from "../utils/slugify";
 
 function Post({post}) {
-    const {title, tags, slug, summary, read_time, likes_count, created_at, cover_image_url } = post;
+    const {title, tags, summary, read_time, likes_count, created_at, cover_image_url, id } = post;
 
     const dateTime = formatDistanceFromNow(created_at); 
+    const slug = slugify(title);
+    
 
     const tagList = Array.isArray(tags) 
     ? tags 
@@ -28,7 +31,7 @@ function Post({post}) {
                 <h3 className="text-base font-medium lg:text-lg">
                     {title}
                 </h3>
-                <p className="text-stone-600">
+                <p className="text-stone-600 line-clamp-2">
                     {summary}
                 </p>
                 <ul className="flex gap-2">
@@ -41,16 +44,16 @@ function Post({post}) {
                         {read_time} mins read
                     </p>
                     <div className="flex items-center gap-1">
-                        <GoClock className="text-xl text-primary" />
+                        <GoClock className="text-lg text-primary" />
                         <p>{dateTime}</p>
                     </div>
                 </div>
-                <div className="flex justify-between">
-                    <div className="flex items-center gap-1">
+                <div className="flex">
+                    {/* <div className="flex items-center gap-1">
                         <GoHeart className="text-xl text-red-600" />
                         <span>{likes_count} likes</span>
-                    </div>
-                    <Link to={`/posts/${slug}`}>
+                    </div> */}
+                    <Link to={`/posts/${id}/${slug}`} className=" ml-auto">
                         <div className="flex flex-row-reverse items-center px-3 py-1 rounded bg-primary">
                             <TbArrowBadgeRightFilled className="text-lg text-white" />
                             <span className="text-white font-medium text-base">Read</span>

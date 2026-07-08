@@ -28,7 +28,7 @@ function App() {
           <Route path="/signUp" element={<Signup />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/stories" element={<Stories />} />
-          <Route path="/posts/:slug" element={<PostPage />} />
+          <Route path="/posts/:postId/:slug" element={<PostPage />} />
           <Route path="/stories/write" element={<TemplateSelection />}/> 
           <Route path="/stories/write/:templateId" element={
             <ProtectedRoute>
