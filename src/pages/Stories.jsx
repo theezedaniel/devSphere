@@ -8,7 +8,7 @@ import usePublishedPosts from "../features/posts/usePublishedPosts";
 
 function Stories(){
     const {user} = useAuth();
-    const [openDraft, setOpenDraft] = useState(true);
+    const [openDraft, setOpenDraft] = useState(false);
 
     const {posts: draftedPosts, isLoading: isLoadingDrafts, error: draftsError, fetchPosts: fetchDrafts} = useDraftedPosts();
     const {posts: publishedPosts, isLoading: isLoadingPublished, error: publishedError, fetchPosts: fetchPublished} = usePublishedPosts();
@@ -30,7 +30,7 @@ function Stories(){
 
     
     return ( 
-        <div className="flex-6 p-8 space-y-8">
+        <div className="flex-6 py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">Stories</h1>
                 <WritePostButton />

@@ -19,7 +19,7 @@ function Homepage() {
                     <h3 className="uppercase text-center tracking-widest mt-10 font-bold">Explore trending topics</h3>
                     <Filter />
                 </div>
-                <div className="p-10 lg:p-20">
+                <div className="py-12 px-2 lg:py-20 lg:px-10">
                     <h2 className="text-xl lg:text-2xl font-medium">Popular Articles</h2>
                     <p className="text-sm lg:text-base text-stone-500 mt-1">Discover trending developer articles</p>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 lg:gap-6">

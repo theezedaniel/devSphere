@@ -29,7 +29,7 @@ function AppLayout() {
         <div className="p-1">
             <Modal>
                 <Navbar toggleSideNav={toggleSideNav} />
-                <main className="text-text p-4 min-h-screen flex justify-center items-start">
+                <main className="text-text p-4 min-h-screen flex">
                     <SideNavBar display={openSideNav} toggleSideNav={toggleSideNav} />
                     <Outlet />
                 </main>

@@ -2,7 +2,7 @@ import Tags from "./Tags"
 
 function Filter() {
     return (
-        <aside className="flex-2 space-y-5 p-8">
+        <aside className="flex-2 space-y-5 py-3 px-2 lg:p-8">
             {/* <h2 className="text-xl">Filter by Tags</h2> */}
             <ul className="flex flex-wrap justify-center gap-5">
                 <Tags tag="API" />

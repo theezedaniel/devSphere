@@ -29,7 +29,11 @@ function PostPage() {
     }, [post?.author_id]);  
 
     if(postError || profileError) return <p>{postError?.message || profileError?.message}</p>;
-    if(postLoading || profileLoading || !post) return <Spinner />;
+    if(postLoading || profileLoading || !post) return (
+        <div className="flex-6">
+            <Spinner />
+        </div>
+        );
 
     const {title, content, cover_image_url, read_time, created_at } = post;
     const dateTime = formatDateFns(created_at);

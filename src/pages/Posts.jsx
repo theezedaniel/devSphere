@@ -8,7 +8,7 @@ function Posts() {
     const sortedFilteredPosts = useFilteredPosts(posts);
 
     return (
-        <div className="flex-6 p-10 space-y-6 lg:py-10 lg:px-30">
+        <div className="flex-6 py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
             <div>
                 <h2 className="text-xl font-bold lg:text-2xl">Articles</h2>
                 <p className="text-sm text-text lg:text-base">Discover and share developers articles</p>

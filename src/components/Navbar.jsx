@@ -8,7 +8,7 @@ function Navbar({toggleSideNav}) {
     const { user } =  useAuth(); 
     
     return (
-        <nav className="flex justify-between items-center px-5 py-3 max-w-sm lg:max-w-xl  mx-auto sticky top-0 z-10 w-full backdrop-blur-lg bg-white/30 border-b border-white border-opacity-30 shadow-lg rounded-full mt-10">
+        <nav className="flex justify-between items-center px-1 lg:px-5 py-3 w-full lg:max-w-xl  mx-auto sticky top-0 z-10  backdrop-blur-lg bg-white/30 border-b border-white border-opacity-30 shadow-lg lg:rounded-full lg:mt-10">
             <div className="flex items-center gap-4">
                 {user && <HiOutlineBars3 className="text-xl cursor-pointer lg:hidden" onClick={toggleSideNav}  />}
                 <Link to="/">
