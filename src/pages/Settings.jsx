@@ -55,7 +55,7 @@ function Settings() {
 
     if(loading) return <Spinner />
     return (
-        <div className="flex-6 py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
+        <div className="py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
             <div>
                 <h2 className="text-xl font-bold lg:text-2xl">Account Settings</h2>
                 <p className="text-sm text-stone-600">Make changes to your personal information or account type</p>

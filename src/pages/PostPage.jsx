@@ -39,7 +39,7 @@ function PostPage() {
     const dateTime = formatDateFns(created_at);
  
     return (
-        <div className=" flex-6 px-3 py-12 lg:px-50 flex flex-col gap-5">
+        <div className="px-3 py-12 lg:px-50 flex flex-col gap-5">
             {/* <div className="flex items-center gap-1 cursor-pointer" onClick={goBack}>
                 <IoArrowBackCircleOutline className="text-xl text-stone-600" />
                 <span className="text-sm text-stone-600">Back</span>

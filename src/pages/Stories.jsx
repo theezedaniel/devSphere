@@ -30,7 +30,7 @@ function Stories(){
 
     
     return ( 
-        <div className="flex-6 py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
+        <div className="py-10 px-2 space-y-6 lg:py-3.5 lg:px-10">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">Stories</h1>
                 <WritePostButton />

@@ -65,7 +65,7 @@ function TemplateSelection() {
     }
     
     return (
-        <div className="flex-6 space-y-6 py-3 px-2 lg:py-2 lg:px-10">
+        <div className="space-y-6 py-3 px-2 lg:py-2 lg:px-10">
             <div>
                 <h1 className="text-lg font-medium lg:text-2xl">Start with a template</h1>                
                 <p className="text-xs text-gray-600 lg:text-sm">Make your writing easier with predefined templates</p>
