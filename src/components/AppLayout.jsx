@@ -28,7 +28,7 @@ function AppLayout() {
     return (
         <div className="p-1">
             <Modal>
-                <Navbar toggleSideNav={toggleSideNav} />
+                <Navbar toggleSideNav={toggleSideNav}  display={openSideNav} />
                 <main className="text-text p-4 min-h-screen lg:h-screen overflow-hidden flex w-full">
                     <SideNavBar display={openSideNav} toggleSideNav={toggleSideNav} />
                     <div className="flex-1 min-w-0 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden h-full lg:px-6">

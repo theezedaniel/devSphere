@@ -3,14 +3,18 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 import Modal from "./Modal";
 import { GoPerson } from "react-icons/go";
+import { LuPanelLeftClose, LuPanelRightClose } from "react-icons/lu";
 
-function Navbar({toggleSideNav}) {
+
+function Navbar({toggleSideNav, display}) {
     const { user } =  useAuth(); 
     
     return (
         <nav className="flex justify-between items-center px-1 lg:px-5 py-3 w-full lg:max-w-xl  mx-auto sticky top-0 z-10  backdrop-blur-lg bg-white/30 border-b border-white border-opacity-30 shadow-lg lg:rounded-full lg:mt-10">
             <div className="flex items-center gap-4">
-                {user && <HiOutlineBars3 className="text-xl cursor-pointer lg:hidden" onClick={toggleSideNav}  />}
+                {user && display ? <LuPanelLeftClose className={`text-xl cursor-pointer lg:hidden `}  onClick={toggleSideNav}  /> 
+            :
+            <LuPanelRightClose className={`text-xl cursor-pointer lg:hidden `}  onClick={toggleSideNav}  />}
                 <Link to="/">
                     <img src="../default-monochrome-black.svg" alt="DevSphere Logo" className="w-[90px] md:w-[100px]" />
                 </Link>

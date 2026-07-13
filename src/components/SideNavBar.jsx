@@ -29,9 +29,9 @@ function SideNavBar({display, toggleSideNav}) {
         ${display ? 'lg:w-40 lg:px-1 lg:overflow-visible' : 'lg:w-0 lg:px-0 lg:py-0 lg:border-none lg:overflow-visible'}
     `}
         >
-            {display ? <LuPanelLeftClose className={`text-xl cursor-pointer absolute top-6 transition-all duration-300 right-4 `}  onClick={toggleSideNav}  /> 
+            {display ? <LuPanelLeftClose className={`text-xl cursor-pointer absolute top-6 transition-all duration-300 right-4 hidden lg:block `}  onClick={toggleSideNav}  /> 
             :
-            <LuPanelRightClose className={`text-xl cursor-pointer absolute top-6 transition-all duration-300 left-4 lg:left-6 `}  onClick={toggleSideNav}  />}
+            <LuPanelRightClose className={`text-xl cursor-pointer absolute top-6 transition-all duration-300 left-4 lg:left-6 hidden lg:block `}  onClick={toggleSideNav}  />}
             
             <div className={`w-34 space-y-12 pt-10 transition-opacity duration-200 ${display ? 'opacity-100' : 'opacity-0 pointer-events-none lg:hidden'}`}>
             <Link to="/" className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">

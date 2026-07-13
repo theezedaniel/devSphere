@@ -46,7 +46,7 @@ function PostPage() {
             </div> */}
             <div className="text-center flex flex-col justify-center items-center gap-2">
                 <h1 className="text-2xl lg:text-4xl font-bold mb-4">{title} </h1>
-                <PostDetails profile={profile} readTime={read_time} dateTime={dateTime} />
+                <PostDetails profile={profile} readTime={read_time} dateTime={dateTime} postId={postId} />
                 <article className="">
                     <div className="w-full h-70 lg:h-100">
                         <img src={cover_image_url} alt="cover image" crossOrigin="anonymous" className="w-full h-full object-cover" />
