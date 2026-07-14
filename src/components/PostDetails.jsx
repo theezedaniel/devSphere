@@ -1,11 +1,14 @@
-import { FaBookmark, FaLink } from "react-icons/fa";
 import { BsShare } from "react-icons/bs";
 import { useBookmark } from "../features/bookmarks/useBookmark";
 import { CiBookmark } from "react-icons/ci";
+import { IoBookmark } from "react-icons/io5";
 
 function PostDetails({profile, readTime, dateTime, postId}) {
-    const {loading, error, isBookmarked, bookmarkPost} = useBookmark();
+    const {loading, error, isBookmarked, bookmarkPost, removePostBookmark} = useBookmark(postId);
 
+    const removebookmark = (postId)=> {
+        if(postId) removePostBookmark({postId})
+    }
     const placebookmark = (postId)=> {
         if(postId) bookmarkPost({postId})
     }
@@ -21,7 +24,16 @@ function PostDetails({profile, readTime, dateTime, postId}) {
                 <p>{dateTime}</p>
             </div>
             <div className="flex gap-2">
-                {isBookmarked ? <FaBookmark className="text-lg cursor-pointer text-primary" /> :<CiBookmark className="text-lg cursor-pointer" onClick={()=> placebookmark(postId)} />}
+                {isBookmarked 
+                ? <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading}
+                onClick={()=> removebookmark(postId)} >
+                    <IoBookmark className="text-lg text-primary"/>
+                </button> :
+                <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading}
+                onClick={()=> placebookmark(postId)}>
+                    <CiBookmark className="text-lg" />
+                </button>
+                    }
                 <BsShare className="text-lg cursor-pointer" />
             </div>
         </div>

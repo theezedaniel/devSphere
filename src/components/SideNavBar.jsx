@@ -33,7 +33,7 @@ function SideNavBar({display, toggleSideNav}) {
             :
             <LuPanelRightClose className={`text-xl cursor-pointer absolute top-6 transition-all duration-300 left-4 lg:left-6 hidden lg:block `}  onClick={toggleSideNav}  />}
             
-            <div className={`w-34 space-y-12 pt-10 transition-opacity duration-200 ${display ? 'opacity-100' : 'opacity-0 pointer-events-none lg:hidden'}`}>
+            <div className={`w-54 lg:w-34 space-y-12 pt-10 transition-opacity duration-200 ${display ? 'opacity-100' : 'opacity-0 pointer-events-none lg:hidden'}`}>
             <Link to="/" className="px-3 py-4 flex items-center gap-2 hover:bg-white/30 cursor-pointer rounded ">
                 <GoHome className="text-primary text-xl" />
                 <span>Home</span>                
