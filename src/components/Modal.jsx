@@ -5,7 +5,7 @@ import { HiXMark } from "react-icons/hi2";
 import { StyledModal } from "./StyledModal";
 
 
-const ModalContext = createContext();
+export const ModalContext = createContext();
 
 
 function Modal({children}){
@@ -57,6 +57,12 @@ function Button({children}){
             {children}
         </button>
     )
+}
+
+export function useModal() {
+    const context = useContext(ModalContext);
+    if (!context) throw new Error("useModal must be used within a <Modal> wrapper");
+    return context;
 }
 
 Modal.Open = Open

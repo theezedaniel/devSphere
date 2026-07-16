@@ -37,7 +37,8 @@ function PostPage() {
 
     const {title, content, cover_image_url, read_time, created_at } = post;
     const dateTime = formatDateFns(created_at);
- 
+
+    
     return (
         <div className="px-3 py-12 lg:px-50 flex flex-col gap-5">
             {/* <div className="flex items-center gap-1 cursor-pointer" onClick={goBack}>
@@ -46,7 +47,7 @@ function PostPage() {
             </div> */}
             <div className="text-center flex flex-col justify-center items-center gap-2">
                 <h1 className="text-2xl lg:text-4xl font-bold mb-4">{title} </h1>
-                <PostDetails profile={profile} readTime={read_time} dateTime={dateTime} postId={postId} />
+                <PostDetails profile={profile} readTime={read_time} dateTime={dateTime} postId={postId} title={title} />
                 <article className="">
                     <div className="w-full h-70 lg:h-100">
                         <img src={cover_image_url} alt="cover image" crossOrigin="anonymous" className="w-full h-full object-cover" />

@@ -1,21 +1,23 @@
 import { useCallback, useState } from "react";
-import {getUserDrafts} from "../../services/apiPosts";
+import {getUserBookmarks} from "../../services/apiBookmark"; 
 
-function useDraftedPosts(){
+
+function useBookmarkedPosts(){
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = useCallback(async (userId) => {
-        if (!userId || userId === "undefined") return [];
+        if (!userId || userId === "undefined") return;
+
         try {
             setIsLoading(true);
             setError(null);
-            const data = await getUserDrafts(userId);
+            const data = await getUserBookmarks({userId});
             setPosts(data || []);
         } catch (err) {
             const message = err?.message;
-            setError(message ?? "Failed to load drafted posts");
+            setError(message ?? "Failed to load bookmarked posts!");
         } finally {
             setIsLoading(false);
         }
@@ -25,5 +27,5 @@ function useDraftedPosts(){
 }
 
 
-export default useDraftedPosts;
+export default useBookmarkedPosts;
 

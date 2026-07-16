@@ -2,16 +2,31 @@ import { BsShare } from "react-icons/bs";
 import { useBookmark } from "../features/bookmarks/useBookmark";
 import { CiBookmark } from "react-icons/ci";
 import { IoBookmark } from "react-icons/io5";
+import { slugify } from "../utils/slugify";
 
-function PostDetails({profile, readTime, dateTime, postId}) {
+function PostDetails({profile, readTime, dateTime, title,  postId}) {
     const {loading, error, isBookmarked, bookmarkPost, removePostBookmark} = useBookmark(postId);
+    const slug = slugify(title);
+
+    const postPath = `/posts/${postId}/${slug}`;
+    const postUrl = `${window.location.origin}${postPath}`;
 
     const removebookmark = (postId)=> {
         if(postId) removePostBookmark({postId})
     }
-    const placebookmark = (postId)=> {
-        if(postId) bookmarkPost({postId})
+    const placebookmark = (postId, authorId)=> {
+        if(postId) bookmarkPost({postId, authorId})
     }
+
+    const handleShare = async () => {        
+        if (navigator.share) {
+            await navigator.share({
+                title,
+                text: `Read up this article by ${profile?.full_name} on Devsphere!`,
+                url: postUrl,
+            });
+        }
+    };
         
     return (
         <div className="flex justify-between gap-10 lg:gap-20 px-5 lg:px-20 py-4 border-b border-t border-gray-300 mb-6 items-center">
@@ -30,11 +45,13 @@ function PostDetails({profile, readTime, dateTime, postId}) {
                     <IoBookmark className="text-lg text-primary"/>
                 </button> :
                 <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading}
-                onClick={()=> placebookmark(postId)}>
+                onClick={()=> placebookmark(postId, profile[0]?.id)}>
                     <CiBookmark className="text-lg" />
                 </button>
                     }
-                <BsShare className="text-lg cursor-pointer" />
+                <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading} onClick={()=> handleShare()}>
+                    <BsShare className="text-lg cursor-pointer" />
+                </button>
             </div>
         </div>
     )

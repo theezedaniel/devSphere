@@ -5,28 +5,32 @@ import Tab from "../components/Tab";
 import StoriesList from "../components/StoriesList";
 import useDraftedPosts from "../features/posts/useDraftedPosts";
 import usePublishedPosts from "../features/posts/usePublishedPosts";
+import useBookmarkedPosts from "../features/bookmarks/useBookmarkedPosts";
 
 function Stories(){
     const {user} = useAuth();
-    const [openDraft, setOpenDraft] = useState(false);
+    const [openTab, setOpenTab] = useState("published");
 
     const {posts: draftedPosts, isLoading: isLoadingDrafts, error: draftsError, fetchPosts: fetchDrafts} = useDraftedPosts();
     const {posts: publishedPosts, isLoading: isLoadingPublished, error: publishedError, fetchPosts: fetchPublished} = usePublishedPosts();
+    const {posts: bookmarkedPosts, isLoading: isLoadingBookmarked, error: bookmarkedError, fetchPosts: fetchBookmarked} = useBookmarkedPosts();
     
 
     const userId = user?.id;
 
-    const showDrafts = () => setOpenDraft(true);
-    const showPublished = () => setOpenDraft(false);
+    const showDrafts = () => setOpenTab("draft");
+    const showPublished = () => setOpenTab("published");
+    const showBookmarked = () => setOpenTab("bookmarked");
 
 
     useEffect(()=>{
-        if(userId){
+        if(userId && userId !== "undefined"){
             fetchDrafts(userId);
             fetchPublished(userId);
+            fetchBookmarked(userId);
         }
 
-    }, [userId, fetchDrafts, fetchPublished]);
+    }, [userId, fetchDrafts, fetchPublished, fetchBookmarked]);
 
     
     return ( 
@@ -37,12 +41,13 @@ function Stories(){
             </div>
             <div>
                 <ul className="flex gap-6 border-b border-b-neutral-300 pb-3 mb-6 text-base">
-                    <Tab active={openDraft} onClick={showDrafts} name={"Draft"}  />
-                    <Tab active={!openDraft} onClick={showPublished} name={"Published"} />
+                    <Tab active={openTab === "draft"} onClick={showDrafts} name={"draft"}  />
+                    <Tab active={openTab === "published"} onClick={showPublished} name={"published"} />
+                    <Tab active={openTab === "bookmarked"} onClick={showBookmarked} name={"bookmarked"} />
                 </ul>
 
                 
-                {openDraft ? (
+                {openTab === "draft" ? (
                 <div>
                     {
                         draftsError ? (
@@ -54,7 +59,7 @@ function Stories(){
                         )
                     }
                 </div>
-                ):(
+                ) : openTab === "published" ? (
                     <div>
                     {
                         publishedError ? (
@@ -62,6 +67,19 @@ function Stories(){
                         ) : (
                             publishedPosts.length > 0 ? 
                             <StoriesList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError}
+                            isPublished={true} />
+                            : <div>No published post yet!</div> 
+                        )
+                    }
+                </div>
+                ) : (
+                    <div>
+                    {
+                        bookmarkedError ? (
+                            <div>{bookmarkedError}</div>
+                        ) : (
+                            bookmarkedPosts.length > 0 ? 
+                            <StoriesList posts={bookmarkedPosts} isLoading={isLoadingBookmarked} error={bookmarkedError}
                             isPublished={true} />
                             : <div>No published post yet!</div> 
                         )

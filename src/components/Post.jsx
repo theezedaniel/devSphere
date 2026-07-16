@@ -13,7 +13,7 @@ import { IoBookmark } from "react-icons/io5";
 
 function Post({post}) {
     const {profile, loading: profileLoading, error: profileError, fetchProfile} = useProfile();
-    const {title, tags, summary, read_time, likes_count, created_at, cover_image_url, id, author_id } = post;
+    const {title, summary, read_time, created_at, cover_image_url, id, author_id } = post;
 
     const {loading, error, isBookmarked, bookmarkPost, removePostBookmark} = useBookmark(id);
     const navigate = useNavigate();
@@ -21,18 +21,27 @@ function Post({post}) {
     const dateTime = formatDateFns(created_at, "MMM d"); 
     const slug = slugify(title);
 
+    const postPath = `/posts/${id}/${slug}`;
+    const postUrl = `${window.location.origin}${postPath}`;
+
     const removebookmark = (e, postId)=> {
         e.stopPropagation();
         if(postId) removePostBookmark({postId})
     }
-    const placebookmark = (e, postId)=> {
+    const placebookmark = (e, postId, authorId)=> {
         e.stopPropagation();
-        if(postId) bookmarkPost({postId})
+        if(postId) bookmarkPost({postId, authorId})
     }
 
-    const handleShare = (e) => {
+    const handleShare = async (e) => {
         e.stopPropagation(); // Stops click from triggering navigate
-        // Your sharing function logic here
+        if (navigator.share) {
+            await navigator.share({
+                title,
+                text: `Read up this article by ${profile[0]?.full_name} on Devsphere!`,
+                url: postUrl,
+            });
+        }
     };
 
     const handleProfileClick = (e, authorId) => {
@@ -93,11 +102,14 @@ function Post({post}) {
                                 <IoBookmark className="text-base text-primary"/>
                             </button> :
                             <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading}
-                            onClick={(e)=> placebookmark(e,id)}>
+                            onClick={(e)=> placebookmark(e,id, profile[0]?.id)}>
                                 <CiBookmark className="text-base" />
                             </button>
                                 }
-                            <BsShare className="text-base cursor-pointer" />
+                            <button type="button" className="cursor-pointer disabled:cursor-not-allowed" disabled={loading}
+                            onClick={(e)=> handleShare(e)}>
+                                <BsShare className="text-base cursor-pointer" />
+                            </button>
                         </div>
                     </div>                    
                 </div>

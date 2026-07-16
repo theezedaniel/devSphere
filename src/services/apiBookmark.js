@@ -1,10 +1,10 @@
 import supabase, {supabaseUrl} from "./supabase";
 
 
-export async function setBookmark({userId, postId}){
+export async function setBookmark({userId, postId, authorId}){
     const {data, error} = await supabase
     .from("bookmarks")
-    .insert({user_id: userId, post_id: postId})
+    .insert({user_id: userId, post_id: postId, author_id: authorId})
     .select()
     .single()
 
@@ -48,12 +48,15 @@ export async function removeBookmark({userId, postId}){
     return data
 }
 
-export async function getBookmarks({userId}){
+export async function getUserBookmarks({userId}){
+    if (!userId || userId === "undefined" || typeof userId === "object") {
+        console.warn("getUserBookmarks block prevented a bad request due to missing userId.");
+        return []; // Gracefully return an empty state array instead of making a broken API call
+    }
     const {data, error} = await supabase
     .from("bookmarks")
     .select("*")
     .eq("user_id", userId)
-    .single()
 
     if(error){
         console.error(error);

@@ -1,16 +1,19 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logout as logoutApi } from "../../services/apiAuth";
 import { useAuth } from "../../context/AuthContext";
-import { useState } from "react";
 
 function useLogout(){
     const {user} = useAuth();
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const logout = async () => {
         try{
             if(!user) throw new Error("No user is currently logged in.");
             setLoading(true);
             await logoutApi();
+            navigate("/");
             toast.success("Logged out successfully");
         }
         catch(err){

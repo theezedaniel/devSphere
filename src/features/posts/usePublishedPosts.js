@@ -7,11 +7,12 @@ function usePublishedPosts(){
     const [posts, setPosts] = useState([]);
 
     const fetchPosts = useCallback(async (userId) => {
+        if (!userId || userId === "undefined") return [];
         try {
             setIsLoading(true);
             setError(null);
             const data = await getUserPublishedPosts(userId);
-            setPosts(data ?? []);
+            setPosts(data || []);
         } catch (err) {
             const message = err?.message;
             setError(message ?? "Failed to load published posts");

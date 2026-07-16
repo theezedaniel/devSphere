@@ -1,6 +1,6 @@
 function Tab({active, onClick, name}) {
     return (
-        <li className={`flex items-center gap-1 cursor-pointer ${active ? "font-semibold" : ""}`} onClick={onClick}>
+        <li className={`flex items-center gap-1 cursor-pointer capitalize ${active ? "font-semibold" : ""}`} onClick={onClick}>
             {name} 
         </li>
     )

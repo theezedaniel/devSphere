@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { checkIsBookmarked, removeBookmark, setBookmark } from "../../services/apiBookmark";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useModal } from "../../components/Modal";
 
 export function useBookmark(postId){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false);
-    const navigate = useNavigate();
+    
+
     const {user} = useAuth();
+    const {open} = useModal();
 
     useEffect(()=> {
         async function fetchBookmarkStatus(){
@@ -27,19 +28,19 @@ export function useBookmark(postId){
         fetchBookmarkStatus();
     }, [user, postId])
 
-    async function bookmarkPost({postId}){
-
+    async function bookmarkPost({postId, authorId}){
         try{
             setLoading(true)
             setError(null)
             if (user){
                 const userId = user?.id;
-                await setBookmark({userId, postId})
+                await setBookmark({userId, postId, authorId})
                 setIsBookmarked(true)
                 toast.success("Post has been addded to your bookmarks")
             }
             else {
-                navigate("/login")
+                open("sign-in"); 
+                toast.error("Please sign in to bookmark posts");
             }
            
         }
@@ -64,7 +65,8 @@ export function useBookmark(postId){
                 toast.success("Post has been removed from your bookmarks")
             }
             else {
-                navigate("/login")
+                open("sign-in"); 
+                toast.error("Please sign in to bookmark posts");
             }
            
         }
@@ -77,6 +79,8 @@ export function useBookmark(postId){
             setLoading(false);
         }
     }
+
+    
 
     return {loading, error, isBookmarked, bookmarkPost, removePostBookmark}
 }
