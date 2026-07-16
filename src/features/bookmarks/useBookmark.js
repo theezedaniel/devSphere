@@ -63,17 +63,20 @@ export function useBookmark(postId){
                 await removeBookmark({userId, postId})
                 setIsBookmarked(false)
                 toast.success("Post has been removed from your bookmarks")
+                return true;
             }
             else {
                 open("sign-in"); 
                 toast.error("Please sign in to bookmark posts");
+                return false;
             }
            
         }
         catch(err){
             const message = err?.message;
             setError(message ?? "Failed to remove bookmarked post");
-            toast.error("Failed to remove bookmarked post")
+            toast.error("Failed to remove bookmarked post");
+            throw err;
         }
         finally{
             setLoading(false);

@@ -54,7 +54,8 @@ function Stories(){
                             <div>{draftsError}</div>
                         ) : (
                             draftedPosts.length > 0 ? 
-                            <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished={false} />
+                            <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished="draft"
+                            onRefresh={() => fetchDrafts(userId)} />
                             : <div>No drafted post yet!</div> 
                         )
                     }
@@ -67,7 +68,8 @@ function Stories(){
                         ) : (
                             publishedPosts.length > 0 ? 
                             <StoriesList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError}
-                            isPublished={true} />
+                            isPublished="published"
+                            onRefresh={() => fetchPublished(userId)} />
                             : <div>No published post yet!</div> 
                         )
                     }
@@ -80,8 +82,9 @@ function Stories(){
                         ) : (
                             bookmarkedPosts.length > 0 ? 
                             <StoriesList posts={bookmarkedPosts} isLoading={isLoadingBookmarked} error={bookmarkedError}
-                            isPublished={true} />
-                            : <div>No published post yet!</div> 
+                            isPublished="bookmarked"
+                            onRefresh={() => fetchBookmarked(userId)} />
+                            : <div>No bookmarked post yet!</div> 
                         )
                     }
                 </div>

@@ -55,7 +55,20 @@ export async function getUserBookmarks({userId}){
     }
     const {data, error} = await supabase
     .from("bookmarks")
-    .select("*")
+    .select(`
+            id,
+            post_id,
+            posts!post_id (
+                id,
+                title,
+                content,
+                summary,
+                cover_image_url,
+                author_id,
+                read_time,
+                created_at
+            )
+    `)
     .eq("user_id", userId)
 
     if(error){
@@ -63,7 +76,9 @@ export async function getUserBookmarks({userId}){
         throw new Error("Failed to get bookmarks")
     }
 
-    return data;
+    return data
+        .map((bookmark) => bookmark.posts)
+        .filter((post) => post !== null);
 }
 
 
