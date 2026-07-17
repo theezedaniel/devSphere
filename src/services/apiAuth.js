@@ -47,6 +47,8 @@ export async function logout(){
         throw new Error(error.message);
     }
 
+    return true;
+
 }
 
 

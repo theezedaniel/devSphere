@@ -12,8 +12,8 @@ function useLogout(){
         try{
             if(!user) throw new Error("No user is currently logged in.");
             setLoading(true);
-            await logoutApi();
-            navigate("/");
+            const success = await logoutApi();
+            if(success) navigate("/");
             toast.success("Logged out successfully");
         }
         catch(err){
