@@ -23,7 +23,7 @@ function StoryOptions({isPublished, postId, title, onRefresh}) {
     }
 
     function handleCopyLinkClick(){
-        const url = `${window.location.origin}/posts/${slug}`;
+        const url = `${window.location.origin}/posts/${postId}/${slug}`;
         handleCopyLink(url);
     }
 
@@ -50,7 +50,7 @@ function StoryOptions({isPublished, postId, title, onRefresh}) {
             </p>
             <hr className="text-neutral-200"/>
             <ul className="space-y-4 px-4 md:text-sm">
-                {isPublished === "bookmarked" && <Link to={`/stories/write/${postId}`} className="hover:font-medium  flex gap-2 items-center">
+                {isPublished === "bookmarked" && <Link to={`/posts/${postId}/${slug}`} className="hover:font-medium  flex gap-2 items-center">
                     <GoEye />
                     <span>View Story</span>
                 </Link>}
