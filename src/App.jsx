@@ -29,7 +29,11 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/posts/:postId/:slug" element={<PostPage />} />
-          <Route path="/stories/write" element={<TemplateSelection />}/> 
+          <Route path="/stories/write" element={
+            <ProtectedRoute>
+              <TemplateSelection />
+            </ProtectedRoute>
+          }/> 
           <Route path="/stories/write/:templateId" element={
             <ProtectedRoute>
               <WritePost />

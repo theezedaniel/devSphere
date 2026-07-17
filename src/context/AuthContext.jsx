@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import supabase from "../services/supabase";
 import { createContext, useState, useEffect, useContext } from "react";
 
@@ -9,6 +10,8 @@ function AuthProvider({children}){
     const [loading, setLoading] = useState(true);
 
     useEffect(()=> {
+        // using a ref to make sure the toast only fires exactly once
+        let isToastFired = false;
         //get current session on app load
         const getSession = async ()=> {
             const {data, error} = await supabase.auth.getSession();
@@ -21,9 +24,13 @@ function AuthProvider({children}){
         getSession();
 
         //listen for auth changes(login, logout, signup)
-        const {data: authListener} = supabase.auth.onAuthStateChange((_event, session)=> {
+        const {data: authListener} = supabase.auth.onAuthStateChange((event, session)=> {
             setUser(session?.user ?? null);
             setLoading(false);
+            if (event === "SIGNED_IN" && session && !isToastFired) {
+                isToastFired = true;
+                toast.success("Signed In successfully!");
+            }
         });
 
         //clean up subscription on unmount

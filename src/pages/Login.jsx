@@ -16,7 +16,7 @@ function Login({onCloseModal}) {
 
     
     const handleGoogleLogin = async () => {
-        await handleSignInWithGoogle({onSuccess: onCloseModal});
+        await handleSignInWithGoogle();
     };
 
     const handleSubmit = (e)=> {
@@ -74,7 +74,7 @@ function Login({onCloseModal}) {
             <button 
                 onClick={handleGoogleLogin}
                 disabled={googleLoading}  
-                className="w-fit mx-auto cursor-pointer ring rounded-full px-4 py-2 flex items-center gap-2 disabled:cursor-not-allowed"
+                className="w-fit mx-auto cursor-pointer ring rounded-full px-4 py-2 flex items-center gap-2 hover:bg-stone-100 duration-300 disabled:cursor-not-allowed"
                 >
                 <FcGoogle className="text-lg" />
                 <span>Sign In with Google Account</span>

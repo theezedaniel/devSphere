@@ -41,6 +41,17 @@ export async function googleSignIn() {
     return data;
 }
 
+export async function getCurrentUser(){
+    const {data: {user}, error} = await supabase.auth.getUser();
+
+    if(error){
+        console.log(error);
+        throw new Error(error.message);
+    }
+
+    return user;
+};
+
 export async function logout(){
     let { error } = await supabase.auth.signOut();
     if(error){
