@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import FormButton from "../../components/FormButton";
 import Spinner from "../../components/Spinner";
 import { useAuth } from "../../context/AuthContext";
+import { getTemplate } from "../../utils/getTemplate";
 import useWritePost from "./useWritePost";
 import useEditPostById from "./useEditPostById";
+import CoverImageSection from "./CoverImageSection";
+import StoryDetailsSection from "./StoryDetailsSection";
+import StoryEditor from "./StoryEditor";
+import ActionBar from "./ActionBar";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { getTemplate } from "../../utils/getTemplate";
+import toast from "react-hot-toast";
+
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 function WritePost() {
     const { user } = useAuth();
     const { postId, templateId } = useParams();
-    const { writePost, loading } = useWritePost(user);
-    const { post, fetchPost } = useEditPostById();
-
     const navigate = useNavigate();
 
-    const isEditMode = Boolean(postId); //makes sure we are editing an existing post and not creating a new one
+    const { writePost, isPublishing, isSaving } = useWritePost(user);
+    const { post, fetchPost } = useEditPostById();
 
-    const MAX_IMAGE_SIZE = 5 * 1024 * 1024; //5MB
+    const isEditMode = Boolean(postId);
 
     const [form, setForm] = useState({
         title: "",
@@ -28,175 +32,184 @@ function WritePost() {
         cover_image_url: "",
     });
 
+    const [errors, setErrors] = useState({});
+
+    // ── Handlers ──────────────────────────────────────────────────────────────
+
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
 
-        if (type === "file") {
-            // For file inputs, store the File object
-            const file = files[0];
-            if (file && file.size > MAX_IMAGE_SIZE) {
-                alert("File size exceeds the 5MB limit. Please choose a smaller file.");
-                return;
-            }
-            setForm(prevForm => ({
-                ...prevForm,
-                [name]: file, // Store the actual file
-            }));
-        } else {
-            // For text inputs
-            setForm(prevForm => ({
-                ...prevForm,
-                [name]: value,
-            }));
-        }
-    }
+      //clear errors dynamically
+      if (errors[name]) {
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
 
-    const handleSubmit = (published = false) => {
-        if (!form.title || !form.summary || !form.content || !form.cover_image_url) return;
-
-        //size guard for file
-        const fileObj = typeof form.cover_image_url === "string" ? null : form.cover_image_url;
-        if (fileObj && fileObj.size > MAX_IMAGE_SIZE) {
-            alert("Image must be under 5MB");
+      if (type === "file") {
+        const file = files[0];
+        if (file && file.size > MAX_IMAGE_SIZE) {
+            alert("File size exceeds the 5MB limit. Please choose a smaller file.");
             return;
         }
-
-        //check if its a file or a string (in edit mode, it will be a string, in create mode, it will be a file)
-        const coverImage = typeof form.cover_image_url === "string" ? form.cover_image_url : form.cover_image_url;
-
-        const normalizedTagsText = form.tags
-            .split(',')
-            .map(t => t.trim())
-            .filter(Boolean)
-            .join(',');
-
-        writePost(
-            {
-                ...form,
-                coverImageUrl: coverImage, //coverImage,
-                tags: normalizedTagsText,
-                published,
-                template: templateId,
-            },
-            postId //pass postId to update existing post, if postId is undefined, a new post will be created);
-        );
+        setForm((prev) => ({ ...prev, [name]: file }));
+    } else {
+        setForm((prev) => ({ ...prev, [name]: value }));
     }
+  };
 
-    const goBack = () => {
-        navigate(-1);
-    }
+    const handleSubmit = (published = false) => {
+      // Validate input fields on execution trigger
+      const newErrors = {};
+      if (!form.title.trim()) newErrors.title = "Title is required";
+      if (!form.summary.trim()) newErrors.summary = "Summary is required";
+      if (!form.content.trim()) newErrors.content = "Story content cannot be empty";
+      if (!form.cover_image_url) newErrors.cover_image_url = "A cover image is required";
+
+      // If there are errors, update state and block submission execution
+      if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
+          toast.error("Please fill in required fields")
+          return;
+      }
+
+      const fileObj =
+          typeof form.cover_image_url === "string" ? null : form.cover_image_url;
+      if (fileObj && fileObj.size > MAX_IMAGE_SIZE) {
+          alert("Image must be under 5MB");
+          return;
+      }
+
+      const coverImage = form.cover_image_url;
+
+      const normalizedTags = form.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
+        .join(",");
+
+        console.log(normalizedTags)
+        console.log(coverImage)
+
+      writePost(
+          {
+              ...form,
+            coverImageUrl: coverImage,
+            tags: normalizedTags,
+            published,
+            template: templateId,
+        },
+        postId
+    );
+  };
+
+    const goBack = () => navigate(-1);
+
+    // ── Effects ───────────────────────────────────────────────────────────────
 
     useEffect(() => {
         if (!isEditMode) return;
-
-        fetchPost(postId);
-
-    }, [postId]);
+      fetchPost(postId);
+  }, [postId]);
 
     useEffect(() => {
-        if (post) {
-            setForm(post);
-        }
-    }, [post]);
+      if (post) setForm(post);
+  }, [post]);
 
-    useEffect(()=> {
-        if(templateId) {
+    useEffect(() => {
+        if (templateId) {
             const template = getTemplate(templateId);
             setForm({
                 title: template.placeholderTitle,
                 summary: template.placeholderSummary,
                 content: template.content,
                 tags: template.defaultTags.join(", "),
-            });
-        }
-    }, [templateId])
+          cover_image_url: "",
+      });
+    }
+  }, [templateId]);
+
+    // ── Early returns ─────────────────────────────────────────────────────────
+
+    if (isEditMode && !post) return <Spinner />;
+
+    // ── Render ────────────────────────────────────────────────────────────────
 
 
-    const inputClass = "w-full border-l border-l-neutral-300 focus:border-l-neutral-500 outline-0 p-3";
-
-    if (isEditMode && !post) return <Spinner />
+    console.log(post)
     return (
-        <div className="flex flex-col gap-5 p-6 lg:p-10">
-            <div className="flex items-center gap-1 cursor-pointer" onClick={goBack}>
-                <IoArrowBackCircleOutline className="text-2xl text-stone-600" />
-                <span className="text-sm text-stone-600">Back</span>
-            </div>
-            <form className="flex-6 space-y-6 lg:space-y-10 "
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(false);
-                }}>
-                {/* <h1 className="text-3xl font-bold">Write a new post</h1> */}
-                <input
-                    type="file"
-                    id="coverImage"
-                    name="cover_image_url"
-                    accept="image/*"
-                    className="text-sm rounded-sm file:font-medium file:px-3 file:py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-primary file:text-blue-50 file:cursor-pointer file:transition-colors file:duration-200 hover:file:bg-primary"
-                    onChange={handleChange}
-                />
+      <div className="min-h-screen">
+          <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
 
-                {form.cover_image_url &&
-                    <picture className="w-90 rounded overflow-hidden block md:w-120">
-                        <img
-                            src={typeof form.cover_image_url === "string"
-                                ? form.cover_image_url
-                                : URL.createObjectURL(form.cover_image_url)}
-                            alt="Cover preview"
-                            className="w-full object-cover rounded" crossOrigin="anonymous"
-                        />
-                    </picture>
-                }
+              {/* ── Page header ───────────────────────────────────────────────── */}
+              <div className="mb-8 space-y-4">
+                  <button
+                      type="button"
+                      onClick={goBack}
+                      className="inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-800 transition-colors group"
+                  >
+                      <IoArrowBackCircleOutline className="text-xl group-hover:-translate-x-0.5 transition-transform" />
+                      Back
+                  </button>
 
-                <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    placeholder="Post title"
-                    className={`${inputClass} placeholder:uppercase placeholder:tracking-widest font-semibold text-lg`}
-                    value={form.title}
-                    onChange={handleChange} />
+                  <div className="space-y-1">
+                      {templateId && (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20 mb-2">
+                              ✦ Using {templateId}
+                          </span>
+                      )}
+                      <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+                          {isEditMode ? "Edit post" : "Write a new post"}
+                      </h1>
+                      <p className="text-sm text-stone-400">
+                          {isEditMode
+                              ? "Make your changes, then save or republish."
+                              : "Start with a cover image, then fill in the details below."}
+                      </p>
+                  </div>
+              </div>
 
-                <textarea
-                    placeholder="Short summary"
-                    name="summary"
-                    id="summary"
-                    className={`${inputClass} text-base h-24`}
-                    value={form.summary}
-                    onChange={handleChange} />
+              {/* ── Editor card ───────────────────────────────────────────────── */}
+              <form
+                  onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit(false);
+                  }}
+                  className="overflow-hidden"
+              >
+                  <CoverImageSection
+                      coverImageUrl={form.cover_image_url}
+                      onChange={handleChange}
+                      error={errors.cover_image_url}
+                  />
 
+                  <div className="px-3 md:px-6 py-8 md:py-10 space-y-5 md:space-y-10">
+                      <StoryDetailsSection
+                          title={form.title}
+                          summary={form.summary}
+                          tags={form.tags}
+                          onChange={handleChange}
+                          errors={errors}
+                      />
 
-                <input
-                    type="text"
-                    name="tags"
-                    id="tags"
-                    placeholder="Tags (comma separated)"
-                    className={`${inputClass} text-base`}
-                    value={form.tags}
-                    onChange={handleChange} />
+                      {/* <div className="border-t border-stone-100" /> */}
 
-                <textarea
-                    placeholder="Write your article here..."
-                    name="content"
-                    id="content"
-                    className={`${inputClass} text-base h-64`}
-                    value={form.content}
-                    onChange={handleChange}
-                />
+                      <StoryEditor
+                          content={form.content}
+                          onChange={handleChange}
+                          error={errors.content} />
+                  </div>
+              </form>
+          </div>
 
-                <div className="flex gap-4">
-                    <FormButton
-                        text={"save draft"}
-                        disabled={loading} onClick={() => handleSubmit(false)} />
-                    <FormButton
-                        text={isEditMode ? "update post" : "publish"}
-                        disabled={loading} onClick={() => handleSubmit(true)} />
-                </div>
-
-            </form>
-        </div>
-    )
+          {/* ── Sticky action bar ─────────────────────────────────────────────── */}
+          <ActionBar
+              isPublishing={isPublishing}
+              isSaving={isSaving}
+              isEditMode={isEditMode}
+              onSaveDraft={() => handleSubmit(false)}
+              onPublish={() => handleSubmit(true)}
+          />
+      </div>
+  );
 }
 
 export default WritePost;
-

@@ -14,6 +14,7 @@ import Settings from "./pages/Settings";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import TemplateSelection from "./pages/TemplateSelection";
+import ViewProfile from "./pages/ViewProfile";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<Signup />} />
           <Route path="/posts" element={<Posts />} />
+          <Route path="/profile/:authorId" element={<ViewProfile />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/posts/:postId/:slug" element={<PostPage />} />
           <Route path="/stories/write" element={
@@ -34,12 +36,12 @@ function App() {
               <TemplateSelection />
             </ProtectedRoute>
           }/> 
-          <Route path="/stories/write/:templateId" element={
+          <Route path="/stories/write/template/:templateId" element={
             <ProtectedRoute>
               <WritePost />
             </ProtectedRoute >
           }/> 
-          <Route path="/stories/write/:postId" element={
+          <Route path="/stories/write/edit/:postId" element={
             <ProtectedRoute>
               <WritePost />
             </ProtectedRoute >

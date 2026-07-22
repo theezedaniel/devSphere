@@ -46,7 +46,7 @@ function Post({post}) {
 
     const handleProfileClick = (e, authorId) => {
         e.stopPropagation(); // Stops click from triggering navigate
-        // if(authorId) navigate(`/profile/${authorId}`); // Navigate directly to user profile
+        if(authorId) navigate(`/profile/${authorId}`); // Navigate directly to user profile
     };
     
     useEffect(()=> {

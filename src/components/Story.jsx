@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 import StoryOptions from "./StoryOptions";
 import { formatDateFns } from "../utils/helpers";
 import useProfile from "../features/profiles/useProfile";
+import { slugify } from "../utils/slugify";
+import { useNavigate } from "react-router-dom";
 
-function Story({post, isPublished, onRefresh }) {
+function Story({post, isPublished, onRefresh, isReaderView }) {
     const {profile, loading: profileLoading, error: profileError, fetchProfile} = useProfile();
     const {title, summary, read_time, id, created_at, cover_image_url, author_id} = post;
 
     const [open, setOpen] = useState();
+    const navigate = useNavigate();
 
     const dateTime = formatDateFns(created_at);
+    const slug = slugify(title);
 
     useEffect(()=> {
         if(author_id)
@@ -20,13 +24,19 @@ function Story({post, isPublished, onRefresh }) {
 
     const handleProfileClick = (e, authorId) => {
         e.stopPropagation(); // Stops click from triggering navigate
-        // if(authorId) navigate(`/profile/${authorId}`); // Navigate directly to user profile
+        if(authorId) navigate(`/profile/${authorId}`); // Navigate directly to user profile
     };
+
+    function handlePostClick(){
+        if(isReaderView){
+            navigate(`/posts/${id}/${slug}`)
+        }        
+    }
 
     if(profileLoading) return null;
     
     return (
-        <div className="relative flex gap-4 rounded-lg cursor-pointer shadow lg:w-full">
+        <div onClick={()=> handlePostClick()} className="relative flex gap-4 rounded-lg cursor-pointer shadow lg:w-full">
             <picture className="hidden md:block flex-2 md:flex-1">
                 <source srcSet={cover_image_url } type="image/jpg" crossOrigin="anonymous" />
                 <img src={cover_image_url } alt="post image" className="w-full h-full object-cover rounded-lg transition duration-300 ease-in-out transform hover:scale-102" crossOrigin="anonymous"/>
@@ -60,11 +70,11 @@ function Story({post, isPublished, onRefresh }) {
                         </div>
                     </div>}
                 </div>
-                <button 
+                {!isReaderView && <button 
                 className="w-full flex justify-end" 
                 onClick={()=> setOpen((value)=> !value) }>
                     <FaEllipsis className="text-lg cursor-pointer" />
-                </button>                
+                </button>}                
             </div>
             {open && <StoryOptions isPublished={isPublished} postId={id} title={title} onRefresh={onRefresh} />}
         </div>

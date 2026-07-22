@@ -55,7 +55,7 @@ function StoryOptions({isPublished, postId, title, onRefresh}) {
                     <span>View Story</span>
                 </Link>}
 
-                {isPublished !== "bookmarked" && <Link to={`/stories/write/${postId}`} className="hover:font-medium  flex gap-2 items-center">
+                {isPublished !== "bookmarked" && <Link to={`/stories/write/edit/${postId}`} className="hover:font-medium  flex gap-2 items-center">
                     <GoPencil />
                     <span>Edit Story</span>
                 </Link>}

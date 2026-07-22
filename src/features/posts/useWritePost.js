@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { slugify } from "../../utils/slugify";
 
 function useWritePost(user) {
-    const [loading, setLoading] = useState(false);
+    const [loadingAction, setLoadingAction] = useState(null);
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ function useWritePost(user) {
 
         const readTime = Math.ceil(content.split(' ').length / 200);
 
-        setLoading(true);
+        setLoadingAction(published ? "publishing" : "saving");
         setError(null);
         try {
             await apiWritePost({
@@ -42,11 +42,13 @@ function useWritePost(user) {
             throw err;            
         }
         finally{
-            setLoading(false);
+            setLoadingAction(null);
         }
     }
 
-    return {loading, error, writePost};
+    return {isPublishing: loadingAction === "publishing",
+            isSaving: loadingAction === "saving",            
+            error, writePost};
 }
 
 
