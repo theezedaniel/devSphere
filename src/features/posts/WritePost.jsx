@@ -134,21 +134,21 @@ function WritePost() {
     // ── Render ────────────────────────────────────────────────────────────────
 
 
-    console.log(post)
+    
     return (
       <div className="min-h-screen">
           <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
 
               {/* ── Page header ───────────────────────────────────────────────── */}
               <div className="mb-8 space-y-4">
-                  <button
+                  {/* <button
                       type="button"
                       onClick={goBack}
                       className="inline-flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-800 transition-colors group"
                   >
                       <IoArrowBackCircleOutline className="text-xl group-hover:-translate-x-0.5 transition-transform" />
                       Back
-                  </button>
+                  </button> */}
 
                   <div className="space-y-1">
                       {templateId && (

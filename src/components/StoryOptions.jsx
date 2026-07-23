@@ -5,7 +5,7 @@ import useDeletePost from "../features/posts/useDeletePost";
 import useCopyLinkButton from "../hooks/useCopyLinkButton";
 import { useBookmark } from "../features/bookmarks/useBookmark"
 import { slugify } from "../utils/slugify";
-import { GoEye, GoLink, GoPencil, GoTrash } from "react-icons/go";
+import { GoEye, GoLink, GoPencil, GoTrash, GoUpload } from "react-icons/go";
 
 
 function StoryOptions({isPublished, postId, title, onRefresh}) {
@@ -44,11 +44,15 @@ function StoryOptions({isPublished, postId, title, onRefresh}) {
 
     return (
         <div className="absolute z-40 -bottom-28 right-0 bg-white rounded-lg drop-shadow-xl py-4 w-60 space-y-2 md:w-90 lg:w-62 md:space-y-3 md:-bottom-65 lg:-bottom-32">
+            {isPublished !== "draft" && 
+            <>
             <p className="hover:font-medium flex gap-2 items-center px-4 mb-2 md:text-sm cursor-pointer" onClick={handleCopyLinkClick}>
                 <GoLink />
                 <span>{copied ? "Link Copied!" : "Copy Link"}</span>
             </p>
             <hr className="text-neutral-200"/>
+            </>
+            }
             <ul className="space-y-4 px-4 md:text-sm">
                 {isPublished === "bookmarked" && <Link to={`/posts/${postId}/${slug}`} className="hover:font-medium  flex gap-2 items-center">
                     <GoEye />
@@ -59,10 +63,11 @@ function StoryOptions({isPublished, postId, title, onRefresh}) {
                     <GoPencil />
                     <span>Edit Story</span>
                 </Link>}
+                <hr className="text-neutral-200"/>
 
                 {isPublished === "draft" && 
                 <Link className="hover:font-medium flex gap-2 items-center">
-                    <GoPencil />
+                    <GoUpload />
                     <span>Publish Story</span>
                 </Link>
                 }

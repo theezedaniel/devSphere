@@ -6,6 +6,10 @@ import StoriesList from "../components/StoriesList";
 import useDraftedPosts from "../features/posts/useDraftedPosts";
 import usePublishedPosts from "../features/posts/usePublishedPosts";
 import useBookmarkedPosts from "../features/bookmarks/useBookmarkedPosts";
+import EmptyStories from "../components/EmptyStories";
+import { FaRegFolderOpen } from "react-icons/fa6";
+import { FiGlobe } from "react-icons/fi";
+import { FiBookmark } from "react-icons/fi";
 
 function Stories(){
     const {user} = useAuth();
@@ -56,7 +60,13 @@ function Stories(){
                             draftedPosts.length > 0 ? 
                             <StoriesList posts={draftedPosts} isLoading={isLoadingDrafts} error={draftsError} isPublished="draft"
                             onRefresh={() => fetchDrafts(userId)} />
-                            : <div>No drafted post yet!</div> 
+                            : <EmptyStories
+                            icon={FaRegFolderOpen}
+                            title="No drafts yet"
+                            description="Ideas you've started but not published will appear here."
+                            actionLabel="Start writing"
+                            actionTo="write"                            
+                          /> 
                         )
                     }
                 </div>
@@ -70,7 +80,13 @@ function Stories(){
                             <StoriesList posts={publishedPosts} isLoading={isLoadingPublished} error={publishedError}
                             isPublished="published"
                             onRefresh={() => fetchPublished(userId)} />
-                            : <div>No published post yet!</div> 
+                            : <EmptyStories
+                                icon={FiGlobe}
+                                title="Nothing published yet"
+                                description="Finish a draft and publish it to share your story with the world."
+                                actionLabel="Write a post"
+                                actionTo="write"
+                                /> 
                         )
                     }
                 </div>
@@ -84,7 +100,13 @@ function Stories(){
                             <StoriesList posts={bookmarkedPosts} isLoading={isLoadingBookmarked} error={bookmarkedError}
                             isPublished="bookmarked"
                             onRefresh={() => fetchBookmarked(userId)} />
-                            : <div>No bookmarked post yet!</div> 
+                            : <EmptyStories
+                                icon={FiBookmark}
+                                title="No bookmarks yet"
+                                description="Save stories you want to read later and they'll show up here."
+                                actionLabel="Browse stories"
+                                onAction={() => navigate("/posts")}
+                                /> 
                         )
                     }
                 </div>

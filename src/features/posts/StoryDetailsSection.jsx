@@ -72,7 +72,7 @@ function StoryDetailsSection({ title, summary, tags, onChange, errors }) {
           rows={3}
           className={`
             ${inputBase}
-            text-sm lg:text-base leading-relaxed text-stone-600
+            text-sm leading-relaxed text-stone-600
             placeholder:text-stone-300
           `}
         />

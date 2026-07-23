@@ -97,7 +97,7 @@ function TemplateSelection() {
                 })}
             </div>
 
-            { template !== "" && <Link to={`/stories/write/${template}`} className=" flex items-center w-fit ml-auto gap-1 bg-primary text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-primary-darker transition-colors text-base">
+            { template !== "" && <Link to={`/stories/write/template/${template}`} className=" flex items-center w-fit ml-auto gap-1 bg-primary text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-primary-darker transition-colors text-base">
                 Continue
                 <MdOutlineKeyboardArrowRight />
             </Link>}
